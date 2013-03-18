@@ -35,7 +35,6 @@ class Task extends ConceptEntity<Task> {
   Map<String, Object> toJson() {
     Map<String, Object> entityMap = new Map<String, Object>();
     entityMap['code'] = code;
-    entityMap['project'] = project.code;
     entityMap['employee'] = employee.code;
     entityMap['description'] = description;
     return entityMap;
@@ -47,8 +46,6 @@ class Task extends ConceptEntity<Task> {
     String employeeCode = entityMap['employee'];
     employee = TasksModel.one().employees.find(employeeCode);
     employee.tasks.add(this);
-    String projectCode = entityMap['project'];
-    // within a specific project, but we do not know her which one
     // see TasksModel.load() where each task is linked to its project
   }
 }

@@ -59,6 +59,18 @@ class TasksModel extends ConceptModel {
     project1.tasks.add(task2);
     employee2.tasks.add(task2);
     
+    var project2 = new Project();
+    project2.name = 'On Dart';
+    project2.description = 'A web site for On Dart Education';
+    projects.add(project2);
+    
+    var task3 = new Task();
+    task3.project = project2;
+    task3.employee = employee1;
+    task3.description = 'prepare courses On Dart';
+    project2.tasks.add(task3);
+    employee1.tasks.add(task3);
+    
     save();
   }
  
