@@ -44,15 +44,12 @@ class Task extends ConceptEntity<Task> {
   fromJson(Map<String, Object> entityMap) {
     code = entityMap['code'];
     description = entityMap['description'];
-    String projectCode = entityMap['project'];
     String employeeCode = entityMap['employee'];
-    // within a specific project, but we do not know which one!
-    employee = TasksModel.one().employees.find(employeeCode);  
-    if (employee != null) {
-      employee.tasks.add(this);
-    } else {
-      print('employee is null');
-    }
+    employee = TasksModel.one().employees.find(employeeCode);
+    employee.tasks.add(this);
+    String projectCode = entityMap['project'];
+    // within a specific project, but we do not know her which one
+    // see TasksModel.load() where each task is linked to its project
   }
 }
 

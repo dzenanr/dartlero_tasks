@@ -71,24 +71,27 @@ class TasksModel extends ConceptModel {
     addTextToFile(projectsFile, stringify(projects.toJson()));
   }
   
-  load() {
+ bool load() {
     var employeesFilePath = '${jsonDirPath}/${EMPLOYEE}.json';
     var projectsFilePath = '${jsonDirPath}/${PROJECT}.json';
     File employeesFile = getFile(employeesFilePath);
     File projectsFile = getFile(projectsFilePath);
     String employeesFileText = readTextFromFile(employeesFile);
     String projectsFileText = readTextFromFile(projectsFile);
-    List<Map<String, Object>> employeesList = parse(employeesFileText);
-    List<Map<String, Object>> projectsList = parse(projectsFileText); 
-    print(employeesList);
-    print(projectsList);
-    employees.fromJson(employeesList);
-    projects.fromJson(projectsList);
-    for (var project in projects) {
-      for (var task in project.tasks) {
-        task.project = project;
+    if (employeesFileText.length > 0 && projectsFileText.length > 0) {
+      List<Map<String, Object>> employeesList = parse(employeesFileText);
+      List<Map<String, Object>> projectsList = parse(projectsFileText); 
+      employees.fromJson(employeesList);
+      projects.fromJson(projectsList);
+      for (var project in projects) {
+        for (var task in project.tasks) {
+          task.project = project;
+        }
       }
-    }
+      return true;
+    } else {
+      return false;
+    } 
   }
   
   display() {
