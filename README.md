@@ -20,12 +20,12 @@ dartlero_tasks.dart command-line launch:
 
 Example:
 
---dir --dir C:/Users/ridjanod/git/dart/educ
+--dir C:/Users/ridjanod/git/dart/educ
 
 By running the main function in the bin/dartlero_tasks.dart file, a model, 
-with two entry points, will be initialized and saved in the given directory. 
+with two entry points, will be initialized (and saved) in the given directory. 
 For each entry concept, a file with the concept name and the json extension 
-will be generated.
+will be created. The next time, data from the two files will be loaded.
 
 You may open a file with a text editor. Use a 
 [JSON pretty-printer] (http://jsonformatter.curiousconcept.com/) 
