@@ -9,13 +9,16 @@ class Employee extends ConceptEntity<Employee> {
   String get email => _email;
   set email(String email) {
     _email = email;
-    code = email;
+    if (code == null) {
+      code = email;
+    }
   }
   
   Employee newEntity() => new Employee();
   
   String toString() {
     return '  {\n'
+           '    code: ${code}\n'
            '    firstName: ${firstName}\n'
            '    lastName: ${lastName}\n'
            '    email: ${email}\n'
@@ -24,6 +27,7 @@ class Employee extends ConceptEntity<Employee> {
   
   Map<String, Object> toJson() {
     Map<String, Object> entityMap = new Map<String, Object>();
+    entityMap['code'] = code;
     entityMap['lastName'] = lastName;
     entityMap['firstName'] = firstName;
     entityMap['email'] = email;
@@ -31,6 +35,7 @@ class Employee extends ConceptEntity<Employee> {
   }
 
   fromJson(Map<String, Object> entityMap) {
+    code = entityMap['code'];
     lastName = entityMap['lastName'];
     firstName = entityMap['firstName'];
     email = entityMap['email'];

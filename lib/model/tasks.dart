@@ -8,7 +8,7 @@ class Task extends ConceptEntity<Task> {
   Project get project => _project;
   set project(Project project) {
     _project = project;
-    if (employee != null) {
+    if (code == null && employee != null) {
       code = '${project.code}-${employee.code}';
     }
   }
@@ -16,7 +16,7 @@ class Task extends ConceptEntity<Task> {
   Employee get employee => _employee;
   set employee(Employee employee) {
     _employee = employee;
-    if (project != null) {
+    if (code == null && project != null) {
       code = '${project.code}-${employee.code}';
     }
   }
@@ -25,6 +25,7 @@ class Task extends ConceptEntity<Task> {
   
   String toString() {
     return '    {\n'
+           '      code: ${code}\n'
            '      project.name: ${project.name}\n'
            '      employee.email: ${employee.email}\n'
            '      description: ${description}\n'
@@ -33,6 +34,7 @@ class Task extends ConceptEntity<Task> {
   
   Map<String, Object> toJson() {
     Map<String, Object> entityMap = new Map<String, Object>();
+    entityMap['code'] = code;
     entityMap['project'] = project.code;
     entityMap['employee'] = employee.code;
     entityMap['description'] = description;
@@ -40,6 +42,7 @@ class Task extends ConceptEntity<Task> {
   }
 
   fromJson(Map<String, Object> entityMap) {
+    code = entityMap['code'];
     String projectCode = entityMap['project'];
     String employeeCode = entityMap['employee'];
     project = TasksModel.one().projects.find(projectCode);
