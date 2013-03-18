@@ -22,11 +22,22 @@ File getFile(String path) {
   return file;
 }
 
-addText(File file, String text) {
+addTextToFile(File file, String text) {
   IOSink<File> writeSink = file.openWrite();
   writeSink.addString(text);
   writeSink.close();
 }
+
+String readTextFromFile(File file) {
+  String fileText = file.readAsStringSync();
+  return fileText;
+}
+
+
+
+
+
+
 
 
 

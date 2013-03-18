@@ -8,9 +8,9 @@ void main() {
   if (args.length == 2 && (args[0] == '--dir')) {
     var model = TasksModel.one();
     model.jsonDirPath = args[1];
-    model.init();
-    model.save();
-    model.display();
+    model.load();
+    //model.init();
+    model.display(); 
   } else {
     print('arguments are not entered properly in Run/Manage Launches of Dart Editor');
   }

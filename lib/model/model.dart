@@ -58,15 +58,37 @@ class TasksModel extends ConceptModel {
     task2.description = 'explain Dart and write about projects';
     project1.tasks.add(task2);
     employee2.tasks.add(task2);
+    
+    save();
   }
  
   save() {
-    var jsonFile1Path = '${jsonDirPath}/${PROJECT}.json';
-    var jsonFile2Path = '${jsonDirPath}/${EMPLOYEE}.json';
-    File file1 = getFile(jsonFile1Path);
-    addText(file1, stringify(projects.toJson()));
-    File file2 = getFile(jsonFile2Path);
-    addText(file2, stringify(employees.toJson()));
+    var employeesFilePath = '${jsonDirPath}/${EMPLOYEE}.json';
+    var projectsFilePath = '${jsonDirPath}/${PROJECT}.json';
+    File employeesFile = getFile(employeesFilePath);
+    File projectsFile = getFile(projectsFilePath);
+    addTextToFile(employeesFile, stringify(employees.toJson()));
+    addTextToFile(projectsFile, stringify(projects.toJson()));
+  }
+  
+  load() {
+    var employeesFilePath = '${jsonDirPath}/${EMPLOYEE}.json';
+    var projectsFilePath = '${jsonDirPath}/${PROJECT}.json';
+    File employeesFile = getFile(employeesFilePath);
+    File projectsFile = getFile(projectsFilePath);
+    String employeesFileText = readTextFromFile(employeesFile);
+    String projectsFileText = readTextFromFile(projectsFile);
+    List<Map<String, Object>> employeesList = parse(employeesFileText);
+    List<Map<String, Object>> projectsList = parse(projectsFileText); 
+    print(employeesList);
+    print(projectsList);
+    employees.fromJson(employeesList);
+    projects.fromJson(projectsList);
+    for (var project in projects) {
+      for (var task in project.tasks) {
+        task.project = project;
+      }
+    }
   }
   
   display() {
