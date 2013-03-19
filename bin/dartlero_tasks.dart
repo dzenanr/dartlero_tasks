@@ -11,7 +11,7 @@ void main() {
     if (!model.load()) {
       model.init();
     }
-    model.display(); 
+    model.display();
   } else {
     print('arguments are not entered properly in Run/Manage Launches of Dart Editor');
   }

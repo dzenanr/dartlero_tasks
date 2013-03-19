@@ -1,10 +1,10 @@
 part of dartlero_tasks;
 
-class Task extends ConceptEntity<Task> { 
+class Task extends ConceptEntity<Task> {
   Project _project;
   Employee _employee;
   String description;
-  
+
   Project get project => _project;
   set project(Project project) {
     _project = project;
@@ -12,7 +12,7 @@ class Task extends ConceptEntity<Task> {
       code = '${project.code}-${employee.code}';
     }
   }
-  
+
   Employee get employee => _employee;
   set employee(Employee employee) {
     _employee = employee;
@@ -20,9 +20,9 @@ class Task extends ConceptEntity<Task> {
       code = '${project.code}-${employee.code}';
     }
   }
-  
+
   Task newEntity() => new Task();
-  
+
   String toString() {
     return '    {\n'
            '      code: ${code}\n'
@@ -31,7 +31,7 @@ class Task extends ConceptEntity<Task> {
            '      description: ${description}\n'
            '    }\n';
   }
-  
+
   Map<String, Object> toJson() {
     Map<String, Object> entityMap = new Map<String, Object>();
     entityMap['code'] = code;

@@ -4,7 +4,7 @@ class Project extends ConceptEntity<Project> {
   String _name;
   String description;
   Tasks tasks = new Tasks();
-  
+
   String get name => _name;
   set name(String name) {
     _name = name;
@@ -12,9 +12,9 @@ class Project extends ConceptEntity<Project> {
       code = name;
     }
   }
-  
+
   Project newEntity() => new Project();
-  
+
   String toString() {
     return '  {\n'
            '    code: ${code}\n'
@@ -22,7 +22,7 @@ class Project extends ConceptEntity<Project> {
            '    description: ${description}\n'
            '  }\n';
   }
-  
+
   Map<String, Object> toJson() {
     Map<String, Object> entityMap = new Map<String, Object>();
     entityMap['code'] = code;

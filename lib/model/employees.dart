@@ -1,11 +1,11 @@
 part of dartlero_tasks;
 
-class Employee extends ConceptEntity<Employee> { 
+class Employee extends ConceptEntity<Employee> {
   String lastName;
   String firstName;
   String _email;
   Tasks tasks = new Tasks();
-  
+
   String get email => _email;
   set email(String email) {
     _email = email;
@@ -13,9 +13,9 @@ class Employee extends ConceptEntity<Employee> {
       code = email;
     }
   }
-  
+
   Employee newEntity() => new Employee();
-  
+
   String toString() {
     return '  {\n'
            '    code: ${code}\n'
@@ -24,7 +24,7 @@ class Employee extends ConceptEntity<Employee> {
            '    email: ${email}\n'
            '  }\n';
   }
-  
+
   Map<String, Object> toJson() {
     Map<String, Object> entityMap = new Map<String, Object>();
     entityMap['code'] = code;

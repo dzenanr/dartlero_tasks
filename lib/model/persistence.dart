@@ -24,7 +24,7 @@ File getFile(String path) {
 
 addTextToFile(File file, String text) {
   IOSink<File> writeSink = file.openWrite();
-  writeSink.addString(text);
+  writeSink.write(text);
   writeSink.close();
 }
 
