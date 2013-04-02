@@ -21,6 +21,7 @@ dartlero_tasks.dart command-line launch:
 Example:
 
 --dir C:/Users/ridjanod/git/dart/educ
+--dir /home/dr/git/dartlero
 
 By running the main function in the bin/dartlero_tasks.dart file, a model, 
 with two entry points, will be initialized (and saved) in the given directory. 
