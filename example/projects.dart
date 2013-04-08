@@ -36,7 +36,7 @@ class Example {
 
   Future dropTables() {
     print("dropping tables");
-    var dropper = new TableDropper(pool, ['project']);
+    var dropper = new TableDropper(pool, ['task', 'project']);
     return dropper.dropTables();
   }
 
