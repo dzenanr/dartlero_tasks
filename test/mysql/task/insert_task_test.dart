@@ -5,13 +5,36 @@ import 'package:sqljocky/utils.dart';
 import 'dart:async';
 
 testTasks(ConnectionPool pool) {
-  group("Testing tasks", () {
-    test("Select all tasks", () {
+    
+  test("Select all tasks", () {
+    pool.query(
+        'select t.code, t.projectCode, t.employeeCode, t.description '
+        'from task t '
+    ).then((result) {
+      print("printing all tasks");
+      for (var row in result) {
+        print(
+            'code: ${row[0]}, '
+            'project code: ${row[1]}, '
+            'employee code: ${row[2]}, '
+            'description: ${row[3]}'
+        );
+      }
+    });
+  });   
+  
+  test("Insert task", () {
+    pool.query(
+        'insert into task '
+        '(code, projectCode, employeeCode, description)'
+        'values'
+        '("Web Components-ma.seyer@gmail.com", "Web Components", "ma.seyer@gmail.com", "Marc-Antoine is learning Web Components.")'
+    ).then((x) {
       pool.query(
-          'select t.code, t.projectCode, t.employeeCode, t.description '
-          'from task t '
+          'select * '
+          'from task '
       ).then((result) {
-        print("selected all tasks");
+        print("printing tasks after insert");
         for (var row in result) {
           print(
               'code: ${row[0]}, '
@@ -22,8 +45,8 @@ testTasks(ConnectionPool pool) {
         }
       });
     });
-
   });
+    
 }
 
 Future dropTable(ConnectionPool pool) {
@@ -54,7 +77,6 @@ Future initData(ConnectionPool pool) {
   pool.prepare(
       "insert into task (code, projectCode, employeeCode, description) values (?, ?, ?, ?)"
   ).then((query) {
-    print("prepared query insert into task");
     var data = [
       ["Dart-timur.ridjanovic@gmail.com", "Dart", "timur.ridjanovic@gmail.com", "Timur is learning Dart."],
       ["Dart-ma.seyer@gmail.com", "Dart", "ma.seyer@gmail.com", "Marc-Antoine is learning Dart."],
@@ -62,14 +84,13 @@ Future initData(ConnectionPool pool) {
     ];
     return query.executeMulti(data);
   }).then((results) {
-    print("executed query insert into task");
     completer.complete(results);
   });
   return completer.future;
 }
 
-Future emptyTable(ConnectionPool pool) {
-  print("empting task table");
+Future clearTable(ConnectionPool pool) {
+  print("clearing task table");
   var query = new QueryRunner(pool, [
     'truncate task'
   ]);
@@ -77,6 +98,7 @@ Future emptyTable(ConnectionPool pool) {
 }
 
 ConnectionPool getPool(OptionsFile options) {
+  print("getting connection options");
   String user = options.getString('user');
   String password = options.getString('password');
   int port = options.getInt('port', 3306);
@@ -88,14 +110,7 @@ ConnectionPool getPool(OptionsFile options) {
 
 main() {
   var pool = getPool(new OptionsFile('connection.options'));
-  dropTable(pool).then((x) {
-    print("dropped task table");
-    createTable(pool).then((x) {
-      print("created task table");
-      initData(pool).then((x) {
-        print("initialized task data");
-        testTasks(pool);
-      });
-    });
-  });
+  dropTable(pool).then((x) => createTable(pool))
+                 .then((x) => initData(pool))
+                 .then((x) => testTasks(pool));
 }
