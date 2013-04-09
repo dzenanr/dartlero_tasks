@@ -2,17 +2,20 @@ import 'dart:io';
 import 'package:dartlero_tasks/dartlero_tasks.dart';
 
 void main() {
+  var model = TasksModel.one();
+ 
   Options options = new Options();
-  // --dir C:/Users/ridjanod/git/dart/educ
   List<String> args = options.arguments;
   if (args.length == 2 && (args[0] == '--dir')) {
-    var model = TasksModel.one();
+    // --dir C:/Users/ridjanod/git/dart/educ
+    model.persistence = 'json';
     model.jsonDirPath = args[1];
-    if (!model.load()) {
+    if (!model.loadFromJson()) {
       model.init();
     }
     model.display();
   } else {
-    print('arguments are not entered properly in Run/Manage Launches of Dart Editor');
+    model.persistence = 'mysql';
+    model.loadFromMysql().then((m) => m.display());
   }
 }

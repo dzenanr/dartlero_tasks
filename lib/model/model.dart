@@ -5,7 +5,8 @@ class TasksModel extends ConceptModel {
   static const String EMPLOYEE = 'Employee';
 
   static TasksModel tasksModel;
-
+  
+  String persistence;
   String jsonDirPath;
 
   static TasksModel one() {
@@ -71,10 +72,10 @@ class TasksModel extends ConceptModel {
     project2.tasks.add(task3);
     employee1.tasks.add(task3);
 
-    save();
+    saveToJson();
   }
 
-  save() {
+  saveToJson() {
     var employeesFilePath = '${jsonDirPath}/${EMPLOYEE}.json';
     var projectsFilePath = '${jsonDirPath}/${PROJECT}.json';
     File employeesFile = getFile(employeesFilePath);
@@ -83,7 +84,7 @@ class TasksModel extends ConceptModel {
     addTextToFile(projectsFile, stringify(projects.toJson()));
   }
 
- bool load() {
+ bool loadFromJson() {
     var employeesFilePath = '${jsonDirPath}/${EMPLOYEE}.json';
     var projectsFilePath = '${jsonDirPath}/${PROJECT}.json';
     File employeesFile = getFile(employeesFilePath);
@@ -104,6 +105,124 @@ class TasksModel extends ConceptModel {
     } else {
       return false;
     }
+  }
+ 
+  Future loadFromMysql() {
+    // http://www.dartlang.org/articles/using-future-based-apis/
+    ConnectionPool pool = getConnectionPool(new OptionsFile('connection.options'));
+    var completer = new Completer();
+    Future.wait([loadFromMysqlEmployees(pool), loadFromMysqlProjects(pool)])
+        .then((x) => loadFromMysqlTasks(pool))
+        .then((x) => completer.complete(this))
+        .catchError((e) => print('error in loading data from mysql db: ${e} '));
+    return completer.future; 
+  }
+ 
+  Future loadFromMysqlEmployees(ConnectionPool pool) {
+    var completer = new Completer();
+    pool.query(
+        'select e.lastName, e.firstName, e.email '
+        'from employee e '
+    ).then((employeeRows) {
+      print("employees");
+      for (var row in employeeRows) {
+        String lastName = row[0];
+        String firstName = row[1];
+        String email = row[2];
+        print(
+            'last name: ${lastName}, '
+            'first name: ${firstName}, '
+            'email: ${email}'
+        );
+        var employee = new Employee();
+        employee.lastName = lastName;
+        employee.firstName = firstName;
+        employee.email = email;
+        if (!employees.add(employee)) {
+          print('problem in adding employee from the mysql db to the employees entry');
+          print('last name: ${lastName}');
+          print('first name: ${firstName}');
+          print('email: ${email}');
+        }
+      }
+      completer.complete(employees);
+    });
+    return completer.future;
+  }
+  
+  Future loadFromMysqlProjects(ConnectionPool pool) {
+    var completer = new Completer();
+    pool.query(
+        'select p.name, p.description '
+        'from project p '
+    ).then((projectRows) {
+      print("projects");
+      for (var row in projectRows) {
+        String name = row[0];
+        String description = row[1];
+        print(
+            'name: ${name}, '
+            'description: ${description}'
+        );
+        var project = new Project();
+        project.name = name;
+        project.description = description;
+        if (!projects.add(project)) {
+          print('problem in adding project from the mysql db to the projects entry');
+          print('name: ${name}');
+          print('description: ${description}');
+        }
+      }
+      completer.complete(projects);
+    }); 
+    return completer.future;
+  }
+  
+  Future loadFromMysqlTasks(ConnectionPool pool) {
+    var completer = new Completer();
+    pool.query(
+        'select t.projectCode, t.employeeCode, t.description '
+        'from task t '
+    ).then((taskRows) {
+      print("tasks");
+      for (var row in taskRows) {
+        String projectCode = row[0];
+        String employeeCode = row[1];
+        String description = row[2];
+        print(
+            'project code: ${projectCode}, '
+            'employee code: ${employeeCode}, '
+            'description: ${description}'
+        );
+        var task = new Task();
+        task.description = description;
+        Project project = projects.find(projectCode);
+        if (project == null) {
+          print('no project in the model with the following project code: ${projectCode}');
+        } else {
+          Employee employee = employees.find(employeeCode);
+          if (employee == null) {
+            print('no employee in the model with the following employee code: ${employeeCode}');
+          } else {
+            task.project = project;
+            task.employee = employee;
+            if (!project.tasks.add(task)) {
+              print('problem in adding task from the mysql db to the project tasks');
+              print('project code: ${projectCode}');
+              print('employee code: ${employeeCode}');
+              print('description: ${description}');
+            } else if (!employee.tasks.add(task)) {
+              print('problem in adding task from the mysql db to the employee tasks');
+              print('project code: ${projectCode}');
+              print('employee code: ${employeeCode}');
+              print('description: ${description}');
+            }
+          }
+        }
+      }
+      completer.complete(this);
+    }); 
+    return completer.future;
   }
 
   display() {
