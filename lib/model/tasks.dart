@@ -53,5 +53,47 @@ class Task extends ConceptEntity<Task> {
 class Tasks extends ConceptEntities<Task> {
   Tasks newEntities() => new Tasks();
   Task newEntity() => new Task();
+  
+  bool add(Task task, {bool insert:true}) {
+    if (super.add(task)) {
+      var model = TasksModel.one();
+      if (model.persistence == 'mysql') {
+        if (insert) {
+          ConnectionPool pool = getConnectionPool(new OptionsFile('connection.options'));
+          pool.query(
+              'insert into task '
+              '(code, projectCode, employeeCode, description)'
+              'values'
+              '("${task.code}", "${task.project.code}", "${task.employee.code}", "${task.description}")'
+          ).then((x) {
+            print(
+                'task inserted: '
+                'code: ${task.code}, '
+                'project code: ${task.project.code}, '
+                'employee code: ${task.employee.code}, '
+                'description: ${task.description}'
+            );
+          }, onError:(e) => print(
+              'task not inserted: ${e} -- '
+              'code: ${task.code}, '
+              'project code: ${task.project.code}, '
+              'employee code: ${task.employee.code}, '
+              'description: ${task.description}'
+          ));
+        }
+      }
+      return true;
+    } else {
+      print(
+          'task not added: '
+          'code: ${task.code}, '
+          'project code: ${task.project.code}, '
+          'employee code: ${task.employee.code}, '
+          'description: ${task.description}'
+      );
+      return false;
+    }
+  }
+  
 }
 

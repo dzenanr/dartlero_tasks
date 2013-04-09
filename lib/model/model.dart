@@ -138,7 +138,7 @@ class TasksModel extends ConceptModel {
         employee.lastName = lastName;
         employee.firstName = firstName;
         employee.email = email;
-        if (!employees.add(employee)) {
+        if (!employees.add(employee, insert:false)) {
           print('problem in adding employee from the mysql db to the employees entry');
           print('last name: ${lastName}');
           print('first name: ${firstName}');
@@ -167,7 +167,7 @@ class TasksModel extends ConceptModel {
         var project = new Project();
         project.name = name;
         project.description = description;
-        if (!projects.add(project)) {
+        if (!projects.add(project, insert:false)) {
           print('problem in adding project from the mysql db to the projects entry');
           print('name: ${name}');
           print('description: ${description}');
@@ -206,12 +206,12 @@ class TasksModel extends ConceptModel {
           } else {
             task.project = project;
             task.employee = employee;
-            if (!project.tasks.add(task)) {
+            if (!project.tasks.add(task, insert:false)) {
               print('problem in adding task from the mysql db to the project tasks');
               print('project code: ${projectCode}');
               print('employee code: ${employeeCode}');
               print('description: ${description}');
-            } else if (!employee.tasks.add(task)) {
+            } else if (!employee.tasks.add(task, insert:false)) {
               print('problem in adding task from the mysql db to the employee tasks');
               print('project code: ${projectCode}');
               print('employee code: ${employeeCode}');

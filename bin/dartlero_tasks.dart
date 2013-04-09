@@ -16,6 +16,26 @@ void main() {
     model.display();
   } else {
     model.persistence = 'mysql';
-    model.loadFromMysql().then((m) => m.display());
+    model.loadFromMysql().then((m) { 
+      m.display(); 
+      
+      Employee employee = new Employee();
+      employee.lastName = 'Nelson';
+      employee.firstName = 'Robert';
+      employee.email = 'robert.nelson@gmail.com';
+      m.employees.add(employee);
+      
+      Project project = new Project();
+      project.name = 'Bas Canada';
+      project.description = "Le Bas Canada etait une province de l'Empire britannique, creee en 1791 par l'Acte constitutionnel.";
+      m.projects.add(project);
+      
+      Task task = new Task();
+      task.employee = employee;
+      task.project = project;
+      task.description = "Promouvoir la musique du Bas Canada";
+      employee.tasks.add(task, insert:false);
+      project.tasks.add(task);
+    });
   }
 }

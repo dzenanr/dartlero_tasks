@@ -43,5 +43,44 @@ class Project extends ConceptEntity<Project> {
 class Projects extends ConceptEntities<Project> {
   Projects newEntities() => new Projects();
   Project newEntity() => new Project();
+  
+  bool add(Project project, {bool insert:true}) {
+    if (super.add(project)) {
+      var model = TasksModel.one();
+      if (model.persistence == 'mysql') {
+        if (insert) {
+          ConnectionPool pool = getConnectionPool(new OptionsFile('connection.options'));
+          pool.query(
+              'insert into project '
+              '(code, name, description)'
+              'values'
+              '("${project.code}", "${project.name}", "${project.description}")'
+          ).then((x) {
+            print(
+                'project inserted: '
+                'code: ${project.code}, '
+                'name: ${project.name}, '
+                'email: ${project.description}'
+            );
+          }, onError:(e) => print(
+              'project not inserted: ${e} -- '
+              'code: ${project.code}, '
+              'name: ${project.name}, '
+              'email: ${project.description}'
+          ));
+        }
+      }
+      return true;
+    } else {
+      print(
+          'project not added: '
+          'code: ${project.code}, '
+          'name: ${project.name}, '
+          'email: ${project.description}'
+      );
+      return false;
+    }
+  }
+  
 }
 
