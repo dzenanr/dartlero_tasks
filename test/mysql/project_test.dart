@@ -12,22 +12,23 @@ testProjects(ConnectionPool pool) {
         createTable(pool).then((x) {
           print("created project table");
           initData(pool).then((x) {
-            print("initialized data");
+            print("initialized project data");
           });
         });
       });
     });
-    tearDown(() {
-
-    });
-    test("Select all", () {
+    test("Select all projects", () {
       pool.query(
         'select p.code, p.name, p.description '
         'from project p '
       ).then((result) {
         print("selected all projects");
         for (var row in result) {
-          print("code: ${row[0]}, name: ${row[1]}, description: ${row[2]}");
+          print(
+            'code: ${row[0]}, '
+            'name: ${row[1]}, '
+            'description: ${row[2]} '
+          );
         }
       });
     });
@@ -48,7 +49,7 @@ Future createTable(ConnectionPool pool) {
       'name varchar(64) not null, '
       'description varchar(256), '
       'primary key (code) '
-    ')',
+    ')'
   ]);
   return query.executeQueries();
 }
