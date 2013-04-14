@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:utf';
 import 'package:dartlero_tasks/dartlero_tasks.dart';
 
 void main() {
@@ -36,6 +37,11 @@ void main() {
       task.description = "Promouvoir la musique du Bas Canada";
       employee.tasks.add(task, insert:false);
       project.tasks.add(task);
+      
+      project = new Project();
+      project.name = 'Bas-Canada';
+      project.description = codepointsToString(encodeUtf8("Le Bas-Canada était une province de l'Empire britannique."));
+      m.projects.add(project);
     });
   }
 }
