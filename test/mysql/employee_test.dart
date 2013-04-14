@@ -23,7 +23,7 @@ testEmployees(ConnectionPool pool) {
       });
     });
 
-    test("Select learning", () {
+    test("Select Ridjanovic employees", () {
       pool.query(
           'select e.code, e.lastName, e.firstName, e.email '
           'from employee e '
@@ -41,7 +41,7 @@ testEmployees(ConnectionPool pool) {
       });
     });
     
-    test("Select all employees, then select learning", () {
+    test("Select all employees, then select Ridjanovic employees", () {
       List<Future> futures = new List();
       var completer = new Completer();
       futures.add(completer.future);
