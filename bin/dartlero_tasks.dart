@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:utf';
 import 'package:dartlero_tasks/dartlero_tasks.dart';
 
 void main() {
@@ -28,7 +27,7 @@ void main() {
       
       Project project = new Project();
       project.name = 'Bas Canada';
-      project.description = "Le Bas Canada etait une province de l'Empire britannique, creee en 1791 par l'Acte constitutionnel.";
+      project.description = "Le Bas-Canada était une province de l'Empire britannique, créée en 1791 par l'Acte constitutionnel.";
       m.projects.add(project);
       
       Task task = new Task();
@@ -37,11 +36,6 @@ void main() {
       task.description = "Promouvoir la musique du Bas Canada";
       employee.tasks.add(task, insert:false);
       project.tasks.add(task);
-      
-      project = new Project();
-      project.name = 'Bas-Canada';
-      project.description = codepointsToString(encodeUtf8("Le Bas-Canada était une province de l'Empire britannique."));
-      m.projects.add(project);
     });
   }
 }

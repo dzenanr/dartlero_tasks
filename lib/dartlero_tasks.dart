@@ -2,6 +2,7 @@ library dartlero_tasks;
 
 import 'dart:io';
 import 'dart:json';
+import 'dart:utf';
 import 'package:dartlero/dartlero.dart';
 
 import 'dart:async';

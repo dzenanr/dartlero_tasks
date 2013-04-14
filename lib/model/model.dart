@@ -166,7 +166,7 @@ class TasksModel extends ConceptModel {
         );
         var project = new Project();
         project.name = name;
-        project.description = description;
+        project.description = decodeUtf8(stringToCodepoints(description));
         if (!projects.add(project, insert:false)) {
           print('problem in adding project from the mysql db to the projects entry');
           print('name: ${name}');

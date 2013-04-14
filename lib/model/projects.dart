@@ -46,6 +46,7 @@ class Projects extends ConceptEntities<Project> {
   
   bool add(Project project, {bool insert:true}) {
     if (super.add(project)) {
+      String utf8Description = codepointsToString(encodeUtf8(project.description));
       var model = TasksModel.one();
       if (model.persistence == 'mysql') {
         if (insert) {
@@ -54,7 +55,7 @@ class Projects extends ConceptEntities<Project> {
               'insert into project '
               '(code, name, description)'
               'values'
-              '("${project.code}", "${project.name}", "${project.description}")'
+              '("${project.code}", "${project.name}", "${utf8Description}")'
           ).then((x) {
             print(
                 'project inserted: '
