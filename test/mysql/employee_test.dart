@@ -42,7 +42,7 @@ testEmployees(ConnectionPool pool) {
     });
     
     test("Select all employees, then select Ridjanovic employees", () {
-      List<Future> futures = new List();
+      var futures = new List<Future>();
       var completer = new Completer();
       futures.add(completer.future);
       
@@ -78,11 +78,11 @@ testEmployees(ConnectionPool pool) {
             );
           }
         });
-      }); // Future.wait(futures).then(() {
+      }); // Future.wait(futures).then((futures) {
       
-    }); // test("Select all employees, then select learning", () {
-  }); // group
-} // testEmployees
+    }); // test("Select all employees, then select Ridjanovic employees", () {
+  }); // group("Testing employees", () {
+} // testEmployees(ConnectionPool pool) {
 
 Future dropTables(ConnectionPool pool) {
   print("dropping tables");
