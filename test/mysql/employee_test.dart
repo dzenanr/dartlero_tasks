@@ -23,7 +23,7 @@ testEmployees(ConnectionPool pool) {
       });
     });
 
-    test("Select Learning", () {
+    test("Select learning", () {
       pool.query(
           'select e.code, e.lastName, e.firstName, e.email '
           'from employee e '
@@ -40,9 +40,49 @@ testEmployees(ConnectionPool pool) {
         }
       });
     });
-
-  });
-}
+    
+    test("Select all employees, then select learning", () {
+      List<Future> futures = new List();
+      var completer = new Completer();
+      futures.add(completer.future);
+      
+      pool.query(
+          'select e.code, e.lastName, e.firstName, e.email '
+          'from employee e '
+      ).then((result) {
+        print("selected all employees");
+        for (var row in result) {
+          print(
+              'code: ${row[0]}, '
+              'last name: ${row[1]}, '
+              'first name: ${row[2]}, '
+              'email: ${row[3]}'
+          );
+        };
+        completer.complete(null);
+      }); // pool.query(
+      
+      Future.wait(futures).then((futures) {
+        pool.query(
+            'select e.code, e.lastName, e.firstName, e.email '
+            'from employee e '
+            'where e.lastName = "Ridjanovic" '
+        ).then((result) {
+          print("selected Ridjanovic employees");
+          for (var row in result) {
+            print(
+                'code: ${row[0]}, '
+                'last name: ${row[1]}, '
+                'first name: ${row[2]}, '
+                'email: ${row[3]}'
+            );
+          }
+        });
+      }); // Future.wait(futures).then(() {
+      
+    }); // test("Select all employees, then select learning", () {
+  }); // group
+} // testEmployees
 
 Future dropTables(ConnectionPool pool) {
   print("dropping tables");
