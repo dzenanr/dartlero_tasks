@@ -5,7 +5,7 @@ class TasksModel extends ConceptModel {
   static const String EMPLOYEE = 'Employee';
 
   static TasksModel tasksModel;
-  
+
   String persistence;
   String jsonDirPath;
 
@@ -71,8 +71,33 @@ class TasksModel extends ConceptModel {
     task3.description = 'prepare courses On Dart';
     project2.tasks.add(task3);
     employee1.tasks.add(task3);
+  }
 
-    saveToJson();
+  clear() {
+    var futures = new List<Future>();
+    var completer = new Completer();
+    futures.add(completer.future);
+
+    for (var employee in employees) {
+      for (var task in employee.tasks) {
+        employee.tasks.remove(task);
+      }
+    }
+    for (var project in projects) {
+      for (var task in project.tasks) {
+        project.tasks.remove(task);
+      }
+    }
+    completer.complete(null);
+
+    Future.wait(futures).then((futures) {
+      for (var employee in employees) {
+        employees.remove(employee);
+      }
+      for (var project in projects) {
+        projects.remove(project);
+      }
+    });
   }
 
   saveToJson() {
@@ -106,7 +131,7 @@ class TasksModel extends ConceptModel {
       return false;
     }
   }
- 
+
   Future loadFromMysql() {
     // http://www.dartlang.org/articles/using-future-based-apis/
     ConnectionPool pool = getConnectionPool(new OptionsFile('connection.options'));
@@ -115,9 +140,9 @@ class TasksModel extends ConceptModel {
         .then((x) => loadFromMysqlTasks(pool))
         .then((x) => completer.complete(this))
         .catchError((e) => print('error in loading data from mysql db: ${e} '));
-    return completer.future; 
+    return completer.future;
   }
- 
+
   Future loadFromMysqlEmployees(ConnectionPool pool) {
     var completer = new Completer();
     pool.query(
@@ -149,7 +174,7 @@ class TasksModel extends ConceptModel {
     });
     return completer.future;
   }
-  
+
   Future loadFromMysqlProjects(ConnectionPool pool) {
     var completer = new Completer();
     pool.query(
@@ -174,10 +199,10 @@ class TasksModel extends ConceptModel {
         }
       }
       completer.complete(projects);
-    }); 
+    });
     return completer.future;
   }
-  
+
   Future loadFromMysqlTasks(ConnectionPool pool) {
     var completer = new Completer();
     pool.query(
@@ -221,7 +246,7 @@ class TasksModel extends ConceptModel {
         }
       }
       completer.complete(this);
-    }); 
+    });
     return completer.future;
   }
 

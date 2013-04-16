@@ -40,12 +40,12 @@ testEmployees(ConnectionPool pool) {
         }
       });
     });
-    
+
     test("Select all employees, then select Ridjanovic employees", () {
       var futures = new List<Future>();
       var completer = new Completer();
       futures.add(completer.future);
-      
+
       pool.query(
           'select e.code, e.lastName, e.firstName, e.email '
           'from employee e '
@@ -61,7 +61,7 @@ testEmployees(ConnectionPool pool) {
         };
         completer.complete(null);
       }); // pool.query(
-      
+
       Future.wait(futures).then((futures) {
         pool.query(
             'select e.code, e.lastName, e.firstName, e.email '
@@ -79,7 +79,6 @@ testEmployees(ConnectionPool pool) {
           }
         });
       }); // Future.wait(futures).then((futures) {
-      
     }); // test("Select all employees, then select Ridjanovic employees", () {
   }); // group("Testing employees", () {
 } // testEmployees(ConnectionPool pool) {

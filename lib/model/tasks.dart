@@ -3,7 +3,7 @@ part of dartlero_tasks;
 class Task extends ConceptEntity<Task> {
   Project _project;
   Employee _employee;
-  String description;
+  String _description;
 
   Project get project => _project;
   set project(Project project) {
@@ -18,6 +18,40 @@ class Task extends ConceptEntity<Task> {
     _employee = employee;
     if (code == null && project != null) {
       code = '${project.code}-${employee.code}';
+    }
+  }
+
+  String get description => _description;
+  set description(String description) {
+    String oldDescription = _description;
+    _description = description;
+    if (oldDescription != null) {
+      var model = TasksModel.one();
+      if (model.persistence == 'mysql') {
+        ConnectionPool pool =
+            getConnectionPool(new OptionsFile('connection.options'));
+        pool.query(
+            'update task '
+            'set task.description="${description}" '
+            'where task.code="${code}" '
+        ).then((x) {
+          print(
+              'task.description updated: '
+              'code: ${code}, '
+              'project code: ${project.code}, '
+              'employee code: ${employee.code}, '
+              'old description: ${oldDescription}, '
+              'description: ${description}'
+          );
+        }, onError:(e) => print(
+            'task.description not updated: ${e} -- '
+            'code: ${code}, '
+            'project code: ${project.code}, '
+            'employee code: ${employee.code}, '
+            'old description: ${oldDescription}, '
+            'description: ${description}'
+        ));
+      } // if (model.persistence == 'mysql') {
     }
   }
 
@@ -53,13 +87,14 @@ class Task extends ConceptEntity<Task> {
 class Tasks extends ConceptEntities<Task> {
   Tasks newEntities() => new Tasks();
   Task newEntity() => new Task();
-  
+
   bool add(Task task, {bool insert:true}) {
     if (super.add(task)) {
-      var model = TasksModel.one();
-      if (model.persistence == 'mysql') {
-        if (insert) {
-          ConnectionPool pool = getConnectionPool(new OptionsFile('connection.options'));
+      if (insert) {
+        var model = TasksModel.one();
+        if (model.persistence == 'mysql') {
+          ConnectionPool pool =
+              getConnectionPool(new OptionsFile('connection.options'));
           pool.query(
               'insert into task '
               '(code, projectCode, employeeCode, description)'
@@ -80,8 +115,8 @@ class Tasks extends ConceptEntities<Task> {
               'employee code: ${task.employee.code}, '
               'description: ${task.description}'
           ));
-        }
-      }
+        } // if (model.persistence == 'mysql') {
+      } // if (insert) {
       return true;
     } else {
       print(
@@ -94,6 +129,46 @@ class Tasks extends ConceptEntities<Task> {
       return false;
     }
   }
-  
+
+  bool remove(Task task, {bool delete:true}) {
+    if (super.remove(task)) {
+      if (delete) {
+        var model = TasksModel.one();
+        if (model.persistence == 'mysql') {
+          ConnectionPool pool =
+              getConnectionPool(new OptionsFile('connection.options'));
+          pool.query(
+              'delete from task '
+              'where task.code="${task.code}" '
+          ).then((x) {
+            print(
+                'task deleted: '
+                'code: ${task.code}, '
+                'project code: ${task.project.code}, '
+                'employee code: ${task.employee.code}, '
+                'description: ${task.description}'
+            );
+          }, onError:(e) => print(
+              'task not deleted: ${e} -- '
+              'code: ${task.code}, '
+              'project code: ${task.project.code}, '
+              'employee code: ${task.employee.code}, '
+              'description: ${task.description}'
+          ));
+        } // if (model.persistence == 'mysql') {
+      } // if (delete) {
+      return true;
+    } else {
+      print(
+          'task not removed: '
+          'code: ${task.code}, '
+          'project code: ${task.project.code}, '
+          'employee code: ${task.employee.code}, '
+          'description: ${task.description}'
+      );
+      return false;
+    }
+  }
+
 }
 
