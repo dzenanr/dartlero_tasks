@@ -92,3 +92,7 @@ git push origin master
 git status
 
 -------------------------------------------------------------------------------
+
+git stash
+
+https://www.kernel.org/pub/software/scm/git/docs/git-stash.html
