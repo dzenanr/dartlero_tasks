@@ -4,6 +4,6 @@ author: Dzenan Ridjanovic <dzenanr@gmail.com>
 description: An example with a many-to-many relationship.
 homepage: http://ondart.me/
 dependencies:
+  sqljocky: any
   dartlero:
     git: git://github.com/dzenanr/dartlero.git
-  sqljocky: 0.3.4

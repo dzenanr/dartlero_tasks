@@ -1,7 +1,8 @@
-.children
+packages/
 pubspec.lock
-packages
-*.js
+.project
+.buildlog
+*.js_
 *.js.deps
 *.js.map
 *~
