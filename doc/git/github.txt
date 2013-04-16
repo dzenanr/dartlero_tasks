@@ -9,6 +9,10 @@ http://git-scm.com/videos
 http://git-scm.com/book
 http://marklodato.github.com/visual-git-guide/index-en.html
 
+.gitignore
+
+http://www.dartlang.org/tools/private-files.html
+
 Education
 
 https://github.com/edu
