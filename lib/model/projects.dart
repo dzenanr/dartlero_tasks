@@ -4,13 +4,40 @@ class Project extends ConceptEntity<Project> {
   String _name;
   String _description;
   Tasks tasks = new Tasks();
-
+  
   String get name => _name;
   set name(String name) {
+    String oldName = _name;
     _name = name;
     if (code == null) {
       code = name;
     }
+    if (oldName != null) {
+      var model = TasksModel.one();
+      if (model.persistence == 'mysql') {
+        ConnectionPool pool =
+            getConnectionPool(new OptionsFile('connection.options'));
+        pool.query(
+            'update project '
+            'set project.name="${name}" '
+            'where project.code="${code}" '
+        ).then((x) {
+          print(
+              'project.name updated: '
+              'code: ${code}, '
+              'old name: ${oldName}, '
+              'name: ${name}, '
+              'description: ${description}'
+          );
+        }, onError:(e) => print(
+            'project.name not updated: ${e} -- '
+            'code: ${code}, '
+            'name: ${name}, '
+            'old name: ${oldName}, '
+            'description: ${description}'
+        ));
+      } // if (model.persistence == 'mysql') {
+    } // if (oldName != null) {
   }
 
   String get description => _description;
@@ -42,7 +69,7 @@ class Project extends ConceptEntity<Project> {
             'description: ${description}'
         ));
       } // if (model.persistence == 'mysql') {
-    }
+    } // if (oldDescription != null) {
   }
 
   Project newEntity() => new Project();

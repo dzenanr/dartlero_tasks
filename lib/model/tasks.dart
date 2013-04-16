@@ -7,18 +7,76 @@ class Task extends ConceptEntity<Task> {
 
   Project get project => _project;
   set project(Project project) {
+    Project oldProject = _project;
     _project = project;
     if (code == null && employee != null) {
       code = '${project.code}-${employee.code}';
     }
+    if (oldProject != null) {
+      var model = TasksModel.one();
+      if (model.persistence == 'mysql') {
+        ConnectionPool pool =
+            getConnectionPool(new OptionsFile('connection.options'));
+        pool.query(
+            'update task '
+            'set task.projectCode="${project.code}" '
+            'where task.code="${code}" '
+        ).then((x) {
+          print(
+              'task.projectCode updated: '
+              'code: ${code}, '
+              'project old code: ${oldProject.code}, '
+              'project code: ${project.code}, '
+              'employee code: ${employee.code}, '
+              'description: ${description}'
+          );
+        }, onError:(e) => print(
+            'task.projectCode not updated: ${e} -- '
+            'code: ${code}, '
+            'project old code: ${oldProject.code}, '
+            'project code: ${project.code}, '
+            'employee code: ${employee.code}, '
+            'description: ${description}'
+        ));
+      } // if (model.persistence == 'mysql') {
+    } // if (oldProject != null) {
   }
 
   Employee get employee => _employee;
   set employee(Employee employee) {
+    Employee oldEmployee = _employee;
     _employee = employee;
     if (code == null && project != null) {
       code = '${project.code}-${employee.code}';
     }
+    if (oldEmployee != null) {
+      var model = TasksModel.one();
+      if (model.persistence == 'mysql') {
+        ConnectionPool pool =
+            getConnectionPool(new OptionsFile('connection.options'));
+        pool.query(
+            'update task '
+            'set task.employeeCode="${employee.code}" '
+            'where task.code="${code}" '
+        ).then((x) {
+          print(
+              'task.employeeCode updated: '
+              'code: ${code}, '
+              'project code: ${project.code}, '
+              'employee old code: ${oldEmployee.code}, '
+              'employee code: ${employee.code}, '
+              'description: ${description}'
+          );
+        }, onError:(e) => print(
+            'task.employeeCode not updated: ${e} -- '
+            'code: ${code}, '
+            'project code: ${project.code}, '
+            'employee old code: ${oldEmployee.code}, '
+            'employee code: ${employee.code}, '
+            'description: ${description}'
+        ));
+      } // if (model.persistence == 'mysql') {
+    } // if (oldProject != null) {
   }
 
   String get description => _description;
@@ -52,7 +110,7 @@ class Task extends ConceptEntity<Task> {
             'description: ${description}'
         ));
       } // if (model.persistence == 'mysql') {
-    }
+    } // if (oldDescription != null) {
   }
 
   Task newEntity() => new Task();

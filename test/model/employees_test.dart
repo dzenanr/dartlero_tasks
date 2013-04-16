@@ -11,12 +11,6 @@ testEmployees() {
   var amra = 'acr@gmail.com';
   var ogden = 'ogdenr@gmail.com';
   group("Testing Employees", () {
-    setUp(() {
-      //model.init();
-    });
-    tearDown(() {
-      //model.clear();
-    });
     test('Add employee', () {
       var employee = new Employee();
       expect(employee, isNotNull);
@@ -25,13 +19,13 @@ testEmployees() {
       employee.email = amra;
       var added = employees.add(employee);
       expect(added, isTrue);
-      employees.display('Employees');
+      employees.display('Add employee');
     });
     test('Update employee', () {
       var employee = employees.find(amra);
       expect(employee, isNotNull);
       employee.email = 'amra.ridjanovic@gmail.com';
-      employees.display('Employees');
+      employees.display('Update employee');
     });
     test('Add employee, remove employee', () {
       var futures = new List<Future>();
@@ -53,8 +47,10 @@ testEmployees() {
         employee = employees.find(ogden);
         expect(employee, isNotNull);
         employees.remove(employee);
+        employees.display('Add employee, remove employee');
       });
     });
+    
   });
 }
 

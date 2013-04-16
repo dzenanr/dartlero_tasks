@@ -1,10 +1,78 @@
 part of dartlero_tasks;
 
 class Employee extends ConceptEntity<Employee> {
-  String lastName;
-  String firstName;
+  String _lastName;
+  String _firstName;
   String _email;
   Tasks tasks = new Tasks();
+  
+  String get lastName => _lastName;
+  set lastName(String lastName) {
+    String oldLastName = _lastName;
+    _lastName = lastName;
+    if (oldLastName != null) {
+      var model = TasksModel.one();
+      if (model.persistence == 'mysql') {
+        ConnectionPool pool =
+            getConnectionPool(new OptionsFile('connection.options'));
+        pool.query(
+            'update employee '
+            'set employee.lastName="${lastName}" '
+            'where employee.code="${code}" '
+        ).then((x) {
+          print(
+              'employee.lastName updated: '
+              'code: ${code}, '
+              'old last name: ${oldLastName}, '
+              'last name: ${lastName}, '
+              'first name: ${firstName}, '
+              'email: ${email}'
+          );
+        }, onError:(e) => print(
+            'employee.lastName not updated: ${e} -- '
+            'code: ${code}, '
+            'old last name: ${oldLastName}, '
+            'last name: ${lastName}, '
+            'first name: ${firstName}, '
+            'email: ${email}'
+        ));
+      } // if (model.persistence == 'mysql') {
+    }
+  }
+  
+  String get firstName => _firstName;
+  set firstName(String firstName) {
+    String oldFirstName = _firstName;
+    _firstName = firstName;
+    if (oldFirstName != null) {
+      var model = TasksModel.one();
+      if (model.persistence == 'mysql') {
+        ConnectionPool pool =
+            getConnectionPool(new OptionsFile('connection.options'));
+        pool.query(
+            'update employee '
+            'set employee.firstName="${firstName}" '
+            'where employee.code="${code}" '
+        ).then((x) {
+          print(
+              'employee.firstName updated: '
+              'code: ${code}, '
+              'last name: ${lastName}, '
+              'old first name: ${oldFirstName}, '
+              'first name: ${firstName}, '
+              'email: ${email}'
+          );
+        }, onError:(e) => print(
+            'employee.firstName not updated: ${e} -- '
+            'code: ${code}, '
+            'last name: ${lastName}, '
+            'old first name: ${oldFirstName}, '
+            'first name: ${firstName}, '
+            'email: ${email}'
+        ));
+      } // if (model.persistence == 'mysql') {
+    } // if (oldFirstName != null) {
+  }
 
   String get email => _email;
   set email(String email) {
@@ -40,7 +108,7 @@ class Employee extends ConceptEntity<Employee> {
             'email: ${email}'
         ));
       } // if (model.persistence == 'mysql') {
-    }
+    } // if (oldEmail != null) {
   }
 
   Employee newEntity() => new Employee();

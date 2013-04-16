@@ -80,6 +80,7 @@ testEmployees(ConnectionPool pool) {
         });
       }); // Future.wait(futures).then((futures) {
     }); // test("Select all employees, then select Ridjanovic employees", () {
+  
   }); // group("Testing employees", () {
 } // testEmployees(ConnectionPool pool) {
 
