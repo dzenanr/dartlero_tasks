@@ -8,26 +8,41 @@ testEmployees() {
   var model = TasksModel.one();
   model.persistence = 'mysql';
   Employees employees = model.employees;
-  var amra = 'acr@gmail.com';
+  var robert = 'rwm@gmail.com';
   var ogden = 'ogdenr@gmail.com';
+  var anne = 'anned@gmail.com';
   group("Testing Employees", () {
     test('Add employee', () {
       var employee = new Employee();
       expect(employee, isNotNull);
-      employee.lastName = 'Curovac Ridjanovic';
-      employee.firstName = 'Amra';
-      employee.email = amra;
+      employee.lastName = 'Mantha';
+      employee.firstName = 'Robert';
+      employee.email = robert;
       var added = employees.add(employee);
       expect(added, isTrue);
       employees.display('Add employee');
     });
     test('Update employee', () {
-      var employee = employees.find(amra);
+      var employee = employees.find(robert);
       expect(employee, isNotNull);
-      employee.email = 'amra.ridjanovic@gmail.com';
+      employee.email = 'robert.mantha@gmail.com';
       employees.display('Update employee');
     });
-    test('Add employee, remove employee', () {
+    test('Add employee, update employee, remove employee', () {
+      var employee = new Employee();
+      expect(employee, isNotNull);
+      employee.lastName = 'Daneault';
+      employee.firstName = 'Anne';
+      employee.email = anne;
+      var added = employees.add(employee);
+      expect(added, isTrue);
+
+      employee.firstName = 'Anne Marie';
+
+      employees.remove(employee);
+      employees.display('Add employee, update employee, remove employee');
+    });
+    test('Add employee, remove employee with future', () {
       var futures = new List<Future>();
       var completer = new Completer();
       futures.add(completer.future);
@@ -50,7 +65,7 @@ testEmployees() {
         employees.display('Add employee, remove employee');
       });
     });
-    
+
   });
 }
 
