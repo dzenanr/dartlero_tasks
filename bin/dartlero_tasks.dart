@@ -8,6 +8,7 @@ void main() {
   List<String> args = options.arguments;
   if (args.length == 2 && (args[0] == '--dir')) {
     // --dir C:/Users/ridjanod/git/dart/educ
+    // --dir /home/dr/git/dartlero
     model.persistence = 'json';
     model.jsonDirPath = args[1];
     if (!model.loadFromJson()) {

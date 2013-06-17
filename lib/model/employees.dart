@@ -5,9 +5,10 @@ class Employee extends ConceptEntity<Employee> {
   String _firstName;
   String _email;
   Tasks tasks = new Tasks();
-  
+
   String get lastName => _lastName;
   set lastName(String lastName) {
+    // String codedLastName = codepointsToString(encodeUtf8(lastName));
     String oldLastName = _lastName;
     _lastName = lastName;
     if (oldLastName != null) {
@@ -39,7 +40,7 @@ class Employee extends ConceptEntity<Employee> {
       } // if (model.persistence == 'mysql') {
     }
   }
-  
+
   String get firstName => _firstName;
   set firstName(String firstName) {
     String oldFirstName = _firstName;

@@ -1,9 +1,3 @@
-packages/
-*/packages
+packages
 pubspec.lock
-.project
-.buildlog
-*.js_
-*.js.deps
-*.js.map
 *~
