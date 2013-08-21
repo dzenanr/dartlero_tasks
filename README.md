@@ -24,7 +24,9 @@ In the Run/Manage Launches of Dart Editor, enter two script arguments
 Example:
 
 --dir C:/Users/ridjanod/git/dartlero/dartlero_tasks/json_data
+
 or
+
 --dir /home/dr/git/dartlero/dartlero_tasks/json_data
 
 By running the main function in the bin/dartlero_tasks.dart file, a model,
@@ -38,22 +40,22 @@ to examine the json document.
 
 **MySQL**
 
-0. no need to create a new database; test database will be used
-1. before running a Dart file with main, put a path to the project folder
+1. no need to create a new database; test database will be used
+2. before running a Dart file with main, put a path to the project folder
    (dartlero_tasks) in the working directory field in Run/Manage Launches
    (in order to have access to the connection.options file).
 
-2. run example/mysql/example.dart to drop and create all tables
-3. run other examples
+3. run example/mysql/example.dart to drop and create all tables
+4. run other examples
 
-4. run test/mysql/employee_test.dart to test employees
-5. run test/mysql/project_test.dart to test projects
-6. run test/mysql/task/*_tasks_test.dart to test tasks
+5. run test/mysql/employee_test.dart to test employees
+6. run test/mysql/project_test.dart to test projects
+7. run test/mysql/task/*_tasks_test.dart to test tasks
 
-If you want to use MySQL and not JSON data files in 7., do not use script arguments
+If you want to use MySQL and not JSON data files in 8., do not use script arguments
 in the Run/Manage Launches of Dart Editor.
 
-7. run bin/dartlero_tasks.dart
+8. run bin/dartlero_tasks.dart
 
 
 
