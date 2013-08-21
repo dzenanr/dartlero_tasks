@@ -5,24 +5,24 @@ import 'package:sqljocky/utils.dart';
 import 'dart:async';
 
 testTasks(ConnectionPool pool) {
-    
+
   test("Select all tasks", () {
     pool.query(
         'select t.code, t.projectCode, t.employeeCode, t.description '
         'from task t '
-    ).then((result) {
+    ).then((rows) {
       print("printing all tasks");
-      for (var row in result) {
+      rows.stream.listen((row) {
         print(
             'code: ${row[0]}, '
             'project code: ${row[1]}, '
             'employee code: ${row[2]}, '
             'description: ${row[3]}'
         );
-      }
+      });
     });
-  });   
-  
+  });
+
   test("Insert task", () {
     pool.query(
         'insert into task '
@@ -33,20 +33,20 @@ testTasks(ConnectionPool pool) {
       pool.query(
           'select * '
           'from task '
-      ).then((result) {
+      ).then((rows) {
         print("printing tasks after insert");
-        for (var row in result) {
+        rows.stream.listen((row) {
           print(
               'code: ${row[0]}, '
               'project code: ${row[1]}, '
               'employee code: ${row[2]}, '
               'description: ${row[3]}'
           );
-        }
+        });
       });
     });
   });
-    
+
 }
 
 Future dropTable(ConnectionPool pool) {

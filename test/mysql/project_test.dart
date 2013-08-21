@@ -21,15 +21,15 @@ testProjects(ConnectionPool pool) {
       pool.query(
         'select p.code, p.name, p.description '
         'from project p '
-      ).then((result) {
+      ).then((rows) {
         print("selected all projects");
-        for (var row in result) {
+        rows.stream.listen((row) {
           print(
             'code: ${row[0]}, '
             'name: ${row[1]}, '
             'description: ${row[2]} '
           );
-        }
+        });
       });
     });
   });
@@ -85,5 +85,16 @@ ConnectionPool getPool(OptionsFile options) {
 }
 
 main() {
-  testProjects(getPool(new OptionsFile('connection.options')));
+  var pool = getPool(new OptionsFile('connection.options'));
+  dropTables(pool).then((x) {
+    print("dropped tables");
+    createTable(pool).then((x) {
+      print("created employee table");
+      initData(pool).then((x) {
+        print("initialized employee data");
+        testProjects(pool);
+      });
+    });
+  });
 }
+

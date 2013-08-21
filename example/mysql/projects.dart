@@ -81,11 +81,11 @@ class Example {
     pool.query(
         'select p.name, p.description '
         'from project p '
-        ).then((result) {
+        ).then((rows) {
       print("got results");
-      for (var row in result) {
+      rows.stream.listen((row) {
         print("Name: ${row[0]}, Description: ${row[1]}");
-      }
+      });
       completer.complete(null);
     });
     return completer.future;

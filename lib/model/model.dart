@@ -148,9 +148,9 @@ class TasksModel extends ConceptModel {
     pool.query(
         'select e.lastName, e.firstName, e.email '
         'from employee e '
-    ).then((employeeRows) {
+    ).then((rows) {
       print("employees");
-      for (var row in employeeRows) {
+      rows.stream.listen((row) {
         // String lastName = decodeUtf8(stringToCodepoints(row[0]));
         String lastName = row[0];
         String firstName = row[1];
@@ -170,7 +170,7 @@ class TasksModel extends ConceptModel {
           print('first name: ${firstName}');
           print('email: ${email}');
         }
-      }
+      });
       completer.complete(employees);
     });
     return completer.future;
@@ -181,9 +181,9 @@ class TasksModel extends ConceptModel {
     pool.query(
         'select p.name, p.description '
         'from project p '
-    ).then((projectRows) {
+    ).then((rows) {
       print("projects");
-      for (var row in projectRows) {
+      rows.stream.listen((row) {
         String name = row[0];
         String description = row[1];
         print(
@@ -198,7 +198,7 @@ class TasksModel extends ConceptModel {
           print('name: ${name}');
           print('description: ${description}');
         }
-      }
+      });
       completer.complete(projects);
     });
     return completer.future;
@@ -209,9 +209,9 @@ class TasksModel extends ConceptModel {
     pool.query(
         'select t.projectCode, t.employeeCode, t.description '
         'from task t '
-    ).then((taskRows) {
+    ).then((rows) {
       print("tasks");
-      for (var row in taskRows) {
+      rows.stream.listen((row) {
         String projectCode = row[0];
         String employeeCode = row[1];
         String description = row[2];
@@ -245,7 +245,7 @@ class TasksModel extends ConceptModel {
             }
           }
         }
-      }
+      });
       completer.complete(this);
     });
     return completer.future;

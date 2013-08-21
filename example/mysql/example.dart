@@ -117,11 +117,11 @@ class Example {
     print("querying");
     pool.query(
         'select e.lastName, e.firstName, e.email '
-        'from employee e ').then((result) {
+        'from employee e ').then((rows) {
       print("got results");
-      for (var row in result) {
+      rows.stream.listen((row) {
         print("Last Name: ${row[0]}, First Name: ${row[1]}, Email: ${row[2]}");
-      }
+      });
       completer.complete(null);
     });
     return completer.future;

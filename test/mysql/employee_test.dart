@@ -10,16 +10,16 @@ testEmployees(ConnectionPool pool) {
       pool.query(
           'select e.code, e.lastName, e.firstName, e.email '
           'from employee e '
-      ).then((result) {
+      ).then((rows) {
         print("selected all employees");
-        for (var row in result) {
+        rows.stream.listen((row) {
           print(
               'code: ${row[0]}, '
               'last name: ${row[1]}, '
               'first name: ${row[2]}, '
               'email: ${row[3]}'
           );
-        }
+        });
       });
     });
 
@@ -28,16 +28,16 @@ testEmployees(ConnectionPool pool) {
           'select e.code, e.lastName, e.firstName, e.email '
           'from employee e '
           'where e.lastName = "Ridjanovic" '
-      ).then((result) {
+      ).then((rows) {
         print("selected Ridjanovic employees");
-        for (var row in result) {
+        rows.stream.listen((row) {
           print(
               'code: ${row[0]}, '
               'last name: ${row[1]}, '
               'first name: ${row[2]}, '
               'email: ${row[3]}'
           );
-        }
+        });
       });
     });
 
@@ -49,16 +49,16 @@ testEmployees(ConnectionPool pool) {
       pool.query(
           'select e.code, e.lastName, e.firstName, e.email '
           'from employee e '
-      ).then((result) {
+      ).then((rows) {
         print("selected all employees");
-        for (var row in result) {
+        rows.stream.listen((row) {
           print(
               'code: ${row[0]}, '
               'last name: ${row[1]}, '
               'first name: ${row[2]}, '
               'email: ${row[3]}'
           );
-        };
+        });
         completer.complete(null);
       }); // pool.query(
 
@@ -67,20 +67,20 @@ testEmployees(ConnectionPool pool) {
             'select e.code, e.lastName, e.firstName, e.email '
             'from employee e '
             'where e.lastName = "Ridjanovic" '
-        ).then((result) {
+        ).then((rows) {
           print("selected Ridjanovic employees");
-          for (var row in result) {
+          rows.stream.listen((row) {
             print(
                 'code: ${row[0]}, '
                 'last name: ${row[1]}, '
                 'first name: ${row[2]}, '
                 'email: ${row[3]}'
             );
-          }
+          });
         });
       }); // Future.wait(futures).then((futures) {
     }); // test("Select all employees, then select Ridjanovic employees", () {
-  
+
   }); // group("Testing employees", () {
 } // testEmployees(ConnectionPool pool) {
 

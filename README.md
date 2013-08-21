@@ -14,15 +14,18 @@ between Project and Employee.
 **Start**:
 Clone the project and open it with Dart Editor.
 
-In the Run/Manage Launches of Dart Editor, enter two arguments (--dir & path)
-in the dartlero_tasks.dart command-line launch:
+**JSON Files**
+
+In the Run/Manage Launches of Dart Editor, enter two script arguments
+(--dir & path) in the bin/dartlero_tasks.dart command-line launch:
 
 --dir path
 
 Example:
 
---dir C:/Users/ridjanod/git/dart/educ
---dir /home/dr/git/dartlero
+--dir C:/Users/ridjanod/git/dartlero/dartlero_tasks/json_data
+or
+--dir /home/dr/git/dartlero/dartlero_tasks/json_data
 
 By running the main function in the bin/dartlero_tasks.dart file, a model,
 with two entry points, will be initialized (and saved) in the given directory.
@@ -33,8 +36,24 @@ You may open a file with a text editor. Use a
 [JSON pretty-printer] (http://jsonformatter.curiousconcept.com/)
 to examine the json document.
 
-If you want to use MySQL instead, do not use arguments
+**MySQL**
+
+0. no need to create a new database; test database will be used
+1. before running a Dart file with main, put a path to the project folder
+   (dartlero_tasks) in the working directory field in Run/Manage Launches
+   (in order to have access to the connection.options file).
+
+2. run example/mysql/example.dart to drop and create all tables
+3. run other examples
+
+4. run test/mysql/employee_test.dart to test employees
+5. run test/mysql/project_test.dart to test projects
+6. run test/mysql/task/*_tasks_test.dart to test tasks
+
+If you want to use MySQL and not JSON data files in 7., do not use script arguments
 in the Run/Manage Launches of Dart Editor.
+
+7. run bin/dartlero_tasks.dart
 
 
 
