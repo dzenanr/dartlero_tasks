@@ -40,6 +40,9 @@ to examine the json document.
 
 **MySQL**
 
+If you want to use MySQL and not JSON data files in 8., do not use script arguments
+in the Run/Manage Launches of Dart Editor.
+
 1. no need to create a new database; test database will be used
 2. before running a Dart file with main, put a path to the project folder
    (dartlero_tasks) in the working directory field in Run/Manage Launches
@@ -51,9 +54,6 @@ to examine the json document.
 5. run test/mysql/employee_test.dart to test employees
 6. run test/mysql/project_test.dart to test projects
 7. run test/mysql/task/*_tasks_test.dart to test tasks
-
-If you want to use MySQL and not JSON data files in 8., do not use script arguments
-in the Run/Manage Launches of Dart Editor.
 
 8. run bin/dartlero_tasks.dart
 
