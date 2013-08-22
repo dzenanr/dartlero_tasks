@@ -1,7 +1,13 @@
 To do
 
+- clean up the code with respect to Futures
+
 MySql
 
 - what if property update is not done in MySql?
 - need a transaction for a prdefined sequence of actions (use dartling)!
 - dartlero API with Future?
+
+MongoDB
+
+- develop a version with MongoDB
