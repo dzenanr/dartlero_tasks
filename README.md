@@ -23,11 +23,11 @@ In the Run/Manage Launches of Dart Editor, enter two script arguments
 
 Example:
 
---dir C:/Users/ridjanod/git/dartlero/dartlero_tasks/json_data
+--dir C:/Users/ridjanod/git/dart/db/dartlero_tasks/json_data
 
 or
 
---dir /home/dr/git/dartlero/dartlero_tasks/json_data
+--dir /home/dr/git/db/dartlero_tasks/json_data
 
 By running the main function in the bin/dartlero_tasks.dart file, a model,
 with two entry points, will be initialized (and saved) in the given directory.
@@ -40,8 +40,10 @@ to examine the json document.
 
 **MySQL**
 
-If you want to use MySQL and not JSON data files in 9., do not use script arguments
-in the Run/Manage Launches of Dart Editor.
+If you want to use MySQL and not JSON data files, 
+enter one script argument in the bin/dartlero_tasks.dart command-line launch:
+
+--mysql
 
 1. do not forget to start the MySQL server
 2. no need to create a new database; test database will be used

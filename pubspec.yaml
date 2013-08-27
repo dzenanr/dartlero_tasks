@@ -1,9 +1,9 @@
 name: dartlero_tasks
 version: 0.0.1
 author: Dzenan Ridjanovic <dzenanr@gmail.com>
-description: An example with a many-to-many relationship.
+description: An example with a many-to-many relationship, JSON files, and MySQL database.
 homepage: http://ondart.me/
 dependencies:
-  sqljocky: any
   dartlero:
     git: git://github.com/dzenanr/dartlero.git
+  sqljocky: any
