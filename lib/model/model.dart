@@ -6,8 +6,10 @@ class TasksModel extends ConceptModel {
 
   static TasksModel tasksModel;
 
-  String persistence;
+  String _persistence;
   String jsonDirPath;
+
+  ConnectionPool pool;
 
   static TasksModel one() {
     if (tasksModel == null) {
@@ -27,6 +29,18 @@ class TasksModel extends ConceptModel {
 
   Projects get projects => getEntry(PROJECT);
   Employees get employees => getEntry(EMPLOYEE);
+
+  String get persistence => _persistence;
+  set persistence(String persistence) {
+    if (persistence == 'mysql') {
+      try {
+        pool = getConnectionPool(new OptionsFile('connection.options'));
+      } catch(e) {
+        throw('consult README: $e');
+      }
+    }
+    _persistence = persistence;
+  }
 
   init() {
     var project1 = new Project();
@@ -134,16 +148,11 @@ class TasksModel extends ConceptModel {
 
   Future loadFromMysql() {
     var completer = new Completer();
-    try {
-      ConnectionPool pool = getConnectionPool(new OptionsFile('connection.options'));
-      // http://www.dartlang.org/articles/using-future-based-apis/
-      Future.wait([loadFromMysqlEmployees(pool), loadFromMysqlProjects(pool)])
-          .then((_) => loadFromMysqlTasks(pool))
-          .then((_) => completer.complete(this))
-          .catchError((e) => print('error in loading data from mysql db: ${e} '));
-    } catch(e) {
-      print('consult README: $e');
-    }
+    // http://www.dartlang.org/articles/using-future-based-apis/
+    Future.wait([loadFromMysqlEmployees(pool), loadFromMysqlProjects(pool)])
+      .then((_) => loadFromMysqlTasks(pool))
+      .then((_) => completer.complete(this))
+      .catchError((e) => print('error in loading data from mysql db: ${e} '));
     return completer.future;
   }
 

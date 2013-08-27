@@ -13,7 +13,7 @@ class Example {
   ConnectionPool pool;
 
   Example(this.pool);
-  
+
   Future run() {
     var completer = new Completer();
     dropTables()

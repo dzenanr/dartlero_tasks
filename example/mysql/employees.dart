@@ -13,7 +13,7 @@ class Example {
   ConnectionPool pool;
 
   Example(this.pool);
-  
+
   Future run() {
     var completer = new Completer();
     dropTables()
@@ -23,102 +23,6 @@ class Example {
       .then((_) => completer.complete());
     return completer.future;
   }
-  
-  // use the following runs in a discussion on futures
-  
-  /*
-  Future run() {
-    var completer = new Completer();
-    // the following works
-    dropTables().then((_) {
-      print('dropped tables');
-      createTables().then((_) {   
-        print('created tables');
-        addData().then((_) {
-          readData();
-          completer.complete();
-        }); 
-      });
-    });
-    return completer.future;
-  }
-  */
-
-  /*
-  Future run() {
-    var completer = new Completer();
-    // the following does not work
-    dropTables().then((_) {
-      print('dropped tables');
-      createTables().then((_) {   
-        print('created tables');
-        addData(); 
-      }).then((_) {
-        readData();
-        completer.complete();
-      });
-    });
-    return completer.future;
-  }
-  */
-  
-  /*
-  Future run() {
-    var completer = new Completer();
-    // the following does not work
-    dropTables().then((_) {
-      createTables();
-    }).then((_) {   
-      addData(); 
-    }).then((_) {
-      readData();
-      completer.complete();
-    });
-    return completer.future;
-  }
-  */
-
-  /*
-  Future run() {
-    var completer = new Completer();
-    // the following does not work
-    dropTables().then((_) {
-      print('dropped tables');
-    }).then((_) {
-      createTables();
-      print('created tables');
-    }).then((_) {
-      addData();
-    }).then((_) {
-      readData();
-      completer.complete();
-    });
-    return completer.future;
-  }
-  */
- 
-  /*
-  Future run() {
-    var completer = new Completer();
-    // the following works
-    // drop the tables if they already exist
-    dropTables().then((_) {
-      print('dropped tables');
-      // then recreate the tables
-      return createTables();
-    }).then((_) {
-      print('created tables');
-      // add some data
-      return addData();
-    }).then((_) {
-      // and read it back out
-      return readData();
-    }).then((_) {
-      completer.complete();
-    });
-    return completer.future;
-  }
-  */
 
   Future dropTables() {
     print('dropping tables');

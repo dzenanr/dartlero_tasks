@@ -4,7 +4,7 @@ class Project extends ConceptEntity<Project> {
   String _name;
   String _description;
   Tasks tasks = new Tasks();
-  
+
   String get name => _name;
   set name(String name) {
     String oldName = _name;
@@ -15,8 +15,7 @@ class Project extends ConceptEntity<Project> {
     if (oldName != null) {
       var model = TasksModel.one();
       if (model.persistence == 'mysql') {
-        ConnectionPool pool =
-            getConnectionPool(new OptionsFile('connection.options'));
+        ConnectionPool pool = TasksModel.one().pool;
         pool.query(
             'update project '
             'set project.name="${name}" '
@@ -47,8 +46,7 @@ class Project extends ConceptEntity<Project> {
     if (oldDescription != null) {
       var model = TasksModel.one();
       if (model.persistence == 'mysql') {
-        ConnectionPool pool =
-            getConnectionPool(new OptionsFile('connection.options'));
+        ConnectionPool pool = TasksModel.one().pool;
         pool.query(
             'update project '
             'set project.description="${description}" '
@@ -109,7 +107,7 @@ class Projects extends ConceptEntities<Project> {
       if (insert) {
         var model = TasksModel.one();
         if (model.persistence == 'mysql') {
-          ConnectionPool pool = getConnectionPool(new OptionsFile('connection.options'));
+          ConnectionPool pool = TasksModel.one().pool;
           pool.query(
               'insert into project '
               '(code, name, description)'
@@ -147,8 +145,7 @@ class Projects extends ConceptEntities<Project> {
       if (delete) {
         var model = TasksModel.one();
         if (model.persistence == 'mysql') {
-          ConnectionPool pool =
-              getConnectionPool(new OptionsFile('connection.options'));
+          ConnectionPool pool = TasksModel.one().pool;
           pool.query(
               'delete from project '
               'where project.code="${project.code}" '

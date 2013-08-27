@@ -41,7 +41,7 @@ void main() {
         project.tasks.add(task);
       });
     } else {
-      print('No arguments: see README');
+      print('No arguments: consult README');
     }
   } catch (e) {
     print('consult README: $e');
