@@ -13,7 +13,73 @@ class Example {
   ConnectionPool pool;
 
   Example(this.pool);
+  
+  Future run() {
+    var completer = new Completer();
+    dropTables().then((_) {
+      print("dropped tables");
+      createTables().then((_) {   
+        print("created tables");
+        addData().then((_) {
+          readData();
+          completer.complete();
+        }); 
+      });
+    });
+    return completer.future;
+  }
 
+  /*
+  Future run() {
+    var completer = new Completer();
+    dropTables().then((_) {
+      print("dropped tables");
+      createTables().then((_) {   
+        print("created tables");
+        addData(); 
+      }).then((_) {
+        readData();
+        completer.complete();
+      });
+    });
+    return completer.future;
+  }
+  */
+  
+  /*
+  Future run() {
+    var completer = new Completer();
+    dropTables().then((_) {
+      createTables();
+    }).then((_) {   
+      addData(); 
+    }).then((_) {
+      readData();
+      completer.complete();
+    });
+    return completer.future;
+  }
+  */
+
+  /*
+  Future run() {
+    var completer = new Completer();
+    dropTables().then((x) {
+      print("dropped tables");
+    }).then((x) {
+      createTables();
+      print("created tables");
+    }).then((x) {
+      addData();
+    }).then((x) {
+      readData();
+      completer.complete(null);
+    });
+    return completer.future;
+  }
+  */
+ 
+  /*
   Future run() {
     var completer = new Completer();
     // drop the tables if they already exist
@@ -33,6 +99,7 @@ class Example {
     });
     return completer.future;
   }
+  */
 
   Future dropTables() {
     print("dropping tables");
@@ -95,25 +162,29 @@ class Example {
 }
 
 void main() {
-  OptionsFile options = new OptionsFile('connection.options');
-  String user = options.getString('user');
-  String password = options.getString('password');
-  int port = options.getInt('port', 3306);
-  String db = options.getString('db');
-  String host = options.getString('host', 'localhost');
+  try {
+    OptionsFile options = new OptionsFile('connection.options');
+    String user = options.getString('user');
+    String password = options.getString('password');
+    int port = options.getInt('port', 3306);
+    String db = options.getString('db');
+    String host = options.getString('host', 'localhost');
 
-  // create a connection
-  print("opening connection");
-  var pool = new ConnectionPool(host: host, port: port, user: user, password: password, db: db);
-  print("connection open");
-  // create an example class
-  var example = new Example(pool);
-  // run the example
-  print("running example");
-  example.run().then((x) {
-    // finally, close the connection
-    print("bye");
-    pool.close();
-  });
+    // create a connection
+    print("opening connection");
+    var pool = new ConnectionPool(host: host, port: port, user: user, password: password, db: db);
+    print("connection open");
+    // create an example class
+    var example = new Example(pool);
+    // run the example
+    print("running example");
+    example.run().then((x) {
+      // finally, close the connection
+      print("bye");
+      pool.close();
+    });
+  } catch(e) {
+    print('consult README: $e');
+  }
 }
 
