@@ -6,17 +6,6 @@ import 'dart:async';
 
 testProjects(ConnectionPool pool) {
   group("Testing projects", () {
-    setUp(() {
-      dropTables(pool).then((x) {
-        print("dropped tables");
-        createTable(pool).then((x) {
-          print("created project table");
-          initData(pool).then((x) {
-            print("initialized project data");
-          });
-        });
-      });
-    });
     test("Select all projects", () {
       pool.query(
         'select p.code, p.name, p.description '
@@ -87,12 +76,12 @@ ConnectionPool getPool(OptionsFile options) {
 main() {
   try {
     var pool = getPool(new OptionsFile('connection.options'));
-    dropTables(pool).then((x) {
+    dropTables(pool).then((_) {
       print("dropped tables");
-      createTable(pool).then((x) {
-        print("created employee table");
-        initData(pool).then((x) {
-          print("initialized employee data");
+      createTable(pool).then((_) {
+        print("created project table");
+        initData(pool).then((_) {
+          print("initialized project data");
           testProjects(pool);
         });
       });

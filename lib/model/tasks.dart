@@ -21,7 +21,7 @@ class Task extends ConceptEntity<Task> {
             'update task '
             'set task.projectCode="${project.code}" '
             'where task.code="${code}" '
-        ).then((x) {
+        ).then((_) {
           print(
               'task.projectCode updated: '
               'code: ${code}, '
@@ -58,7 +58,7 @@ class Task extends ConceptEntity<Task> {
             'update task '
             'set task.employeeCode="${employee.code}" '
             'where task.code="${code}" '
-        ).then((x) {
+        ).then((_) {
           print(
               'task.employeeCode updated: '
               'code: ${code}, '
@@ -92,7 +92,7 @@ class Task extends ConceptEntity<Task> {
             'update task '
             'set task.description="${description}" '
             'where task.code="${code}" '
-        ).then((x) {
+        ).then((_) {
           print(
               'task.description updated: '
               'code: ${code}, '
@@ -158,7 +158,7 @@ class Tasks extends ConceptEntities<Task> {
               '(code, projectCode, employeeCode, description)'
               'values'
               '("${task.code}", "${task.project.code}", "${task.employee.code}", "${task.description}")'
-          ).then((x) {
+          ).then((_) {
             print(
                 'task inserted: '
                 'code: ${task.code}, '
@@ -198,7 +198,7 @@ class Tasks extends ConceptEntities<Task> {
           pool.query(
               'delete from task '
               'where task.code="${task.code}" '
-          ).then((x) {
+          ).then((_) {
             print(
                 'task deleted: '
                 'code: ${task.code}, '

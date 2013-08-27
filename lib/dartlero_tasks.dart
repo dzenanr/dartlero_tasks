@@ -8,7 +8,6 @@ import 'package:dartlero/dartlero.dart';
 import 'dart:async';
 import 'package:options_file/options_file.dart';
 import 'package:sqljocky/sqljocky.dart';
-import 'package:sqljocky/utils.dart';
 
 part 'model/model.dart';
 part 'model/employees.dart';

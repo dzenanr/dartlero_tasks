@@ -88,7 +88,7 @@ class TasksModel extends ConceptModel {
         project.tasks.remove(task);
       }
     }
-    completer.complete(null);
+    completer.complete();
 
     Future.wait(futures).then((futures) {
       for (var employee in employees) {
@@ -138,8 +138,8 @@ class TasksModel extends ConceptModel {
       ConnectionPool pool = getConnectionPool(new OptionsFile('connection.options'));
       // http://www.dartlang.org/articles/using-future-based-apis/
       Future.wait([loadFromMysqlEmployees(pool), loadFromMysqlProjects(pool)])
-          .then((x) => loadFromMysqlTasks(pool))
-          .then((x) => completer.complete(this))
+          .then((_) => loadFromMysqlTasks(pool))
+          .then((_) => completer.complete(this))
           .catchError((e) => print('error in loading data from mysql db: ${e} '));
     } catch(e) {
       print('consult README: $e');

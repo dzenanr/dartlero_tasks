@@ -24,7 +24,7 @@ testTasks(ConnectionPool pool) {
   });
 
   test("Clear task table", () {
-    clearTable(pool).then((x) {
+    clearTable(pool).then((_) {
       pool.query(
           'select * '
           'from task '
@@ -106,9 +106,10 @@ ConnectionPool getPool(OptionsFile options) {
 main() {
   try {
     var pool = getPool(new OptionsFile('connection.options'));
-    dropTable(pool).then((x) => createTable(pool))
-      .then((x) => initData(pool))
-        .then((x) => testTasks(pool));
+    dropTable(pool)
+      .then((_) => createTable(pool))
+      .then((_) => initData(pool))
+      .then((_) => testTasks(pool));
   } catch(e) {
     print('consult README: $e');
   }

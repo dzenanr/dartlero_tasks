@@ -21,7 +21,7 @@ class Project extends ConceptEntity<Project> {
             'update project '
             'set project.name="${name}" '
             'where project.code="${code}" '
-        ).then((x) {
+        ).then((_) {
           print(
               'project.name updated: '
               'code: ${code}, '
@@ -53,7 +53,7 @@ class Project extends ConceptEntity<Project> {
             'update project '
             'set project.description="${description}" '
             'where project.code="${code}" '
-        ).then((x) {
+        ).then((_) {
           print(
               'project.description updated: '
               'code: ${code}, '
@@ -115,7 +115,7 @@ class Projects extends ConceptEntities<Project> {
               '(code, name, description)'
               'values'
               '("${project.code}", "${project.name}", "${utf8Description}")'
-          ).then((x) {
+          ).then((_) {
             print(
                 'project inserted: '
                 'code: ${project.code}, '
@@ -152,7 +152,7 @@ class Projects extends ConceptEntities<Project> {
           pool.query(
               'delete from project '
               'where project.code="${project.code}" '
-          ).then((x) {
+          ).then((_) {
             print(
                 'project deleted: '
                 'code: ${project.code}, '

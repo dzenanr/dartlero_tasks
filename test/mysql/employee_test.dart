@@ -59,7 +59,7 @@ testEmployees(ConnectionPool pool) {
               'email: ${row[3]}'
           );
         });
-        completer.complete(null);
+        completer.complete();
       }); // pool.query(
 
       Future.wait(futures).then((futures) {
@@ -145,11 +145,11 @@ ConnectionPool getPool(OptionsFile options) {
 main() {
   try {
     var pool = getPool(new OptionsFile('connection.options'));
-    dropTables(pool).then((x) {
+    dropTables(pool).then((_) {
       print("dropped tables");
-      createTable(pool).then((x) {
+      createTable(pool).then((_) {
         print("created employee table");
-        initData(pool).then((x) {
+        initData(pool).then((_) {
           print("initialized employee data");
           testEmployees(pool);
         });

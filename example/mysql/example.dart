@@ -17,19 +17,19 @@ class Example {
   Future run() {
     var completer = new Completer();
     // drop the tables if they already exist
-    dropTables().then((x) {
+    dropTables().then((_) {
       print("dropped tables");
       // then recreate the tables
       return createTables();
-    }).then((x) {
+    }).then((_) {
       print("created tables");
       // add some data
       return addData();
-    }).then((x) {
+    }).then((_) {
       // and read it back out
       return readData();
-    }).then((x) {
-      completer.complete(null);
+    }).then((_) {
+      completer.complete();
     });
     return completer.future;
   }
@@ -107,7 +107,7 @@ class Example {
       return query.executeMulti(parameters);
     }).then((results) {
       print("executed query 3");
-      completer.complete(null);
+      completer.complete();
     });
     return completer.future;
   }
@@ -122,7 +122,7 @@ class Example {
       rows.stream.listen((row) {
         print("Last Name: ${row[0]}, First Name: ${row[1]}, Email: ${row[2]}");
       });
-      completer.complete(null);
+      completer.complete();
     });
     return completer.future;
   }
@@ -145,7 +145,7 @@ void main() {
     var example = new Example(pool);
     // run the example
     print("running example");
-    example.run().then((x) {
+    example.run().then((_) {
       // finally, close the connection
       print("bye");
       pool.close();

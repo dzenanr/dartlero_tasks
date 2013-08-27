@@ -55,7 +55,7 @@ testEmployees() {
       var added = employees.add(employee);
       expect(added, isTrue);
       if (added) {
-        completer.complete(null);
+        completer.complete();
       }
 
       Future.wait(futures).then((futures) {

@@ -20,7 +20,7 @@ class Employee extends ConceptEntity<Employee> {
             'update employee '
             'set employee.lastName="${lastName}" '
             'where employee.code="${code}" '
-        ).then((x) {
+        ).then((_) {
           print(
               'employee.lastName updated: '
               'code: ${code}, '
@@ -54,7 +54,7 @@ class Employee extends ConceptEntity<Employee> {
             'update employee '
             'set employee.firstName="${firstName}" '
             'where employee.code="${code}" '
-        ).then((x) {
+        ).then((_) {
           print(
               'employee.firstName updated: '
               'code: ${code}, '
@@ -91,7 +91,7 @@ class Employee extends ConceptEntity<Employee> {
             'update employee '
             'set employee.email="${email}" '
             'where employee.code="${code}" '
-        ).then((x) {
+        ).then((_) {
           print(
               'employee.email updated: '
               'code: ${code}, '
@@ -156,7 +156,7 @@ class Employees extends ConceptEntities<Employee> {
               '(code, lastName, firstName, email)'
               'values'
               '("${employee.code}", "${employee.lastName}", "${employee.firstName}", "${employee.email}")'
-          ).then((x) {
+          ).then((_) {
             print(
                 'employee inserted: '
                 'code: ${employee.code}, '
@@ -196,7 +196,7 @@ class Employees extends ConceptEntities<Employee> {
           pool.query(
               'delete from employee '
               'where employee.code="${employee.code}" '
-          ).then((x) {
+          ).then((_) {
             print(
                 'employee deleted: '
                 'code: ${employee.code}, '
