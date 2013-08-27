@@ -16,6 +16,7 @@ class Example {
   
   Future run() {
     var completer = new Completer();
+    // the following works
     dropTables().then((_) {
       print("dropped tables");
       createTables().then((_) {   
@@ -32,6 +33,7 @@ class Example {
   /*
   Future run() {
     var completer = new Completer();
+    // the following does not work
     dropTables().then((_) {
       print("dropped tables");
       createTables().then((_) {   
@@ -49,6 +51,7 @@ class Example {
   /*
   Future run() {
     var completer = new Completer();
+    // the following does not work
     dropTables().then((_) {
       createTables();
     }).then((_) {   
@@ -64,6 +67,7 @@ class Example {
   /*
   Future run() {
     var completer = new Completer();
+    // the following does not work
     dropTables().then((x) {
       print("dropped tables");
     }).then((x) {
@@ -82,6 +86,7 @@ class Example {
   /*
   Future run() {
     var completer = new Completer();
+    // the following works
     // drop the tables if they already exist
     dropTables().then((x) {
       print("dropped tables");
