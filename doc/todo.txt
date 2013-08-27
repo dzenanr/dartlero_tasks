@@ -1,12 +1,16 @@
 To do
 
-- clean up the code with respect to Futures
+- clean up the code with respect to Futures (use chains of thens where possible)
+
+dartling
+
+- replace dartlero by dartling
+- use action/reaction of dartling to make a model independent of the persistency solution
+- use transactions of dartling for predefined sequences of actions
 
 MySql
 
 - what if property update is not done in MySql?
-- need a transaction for a prdefined sequence of actions (use dartling)!
-- dartlero API with Future?
 
 MongoDB
 
