@@ -133,13 +133,17 @@ class TasksModel extends ConceptModel {
   }
 
   Future loadFromMysql() {
-    // http://www.dartlang.org/articles/using-future-based-apis/
-    ConnectionPool pool = getConnectionPool(new OptionsFile('connection.options'));
     var completer = new Completer();
-    Future.wait([loadFromMysqlEmployees(pool), loadFromMysqlProjects(pool)])
-        .then((x) => loadFromMysqlTasks(pool))
-        .then((x) => completer.complete(this))
-        .catchError((e) => print('error in loading data from mysql db: ${e} '));
+    try {
+      ConnectionPool pool = getConnectionPool(new OptionsFile('connection.options'));
+      // http://www.dartlang.org/articles/using-future-based-apis/
+      Future.wait([loadFromMysqlEmployees(pool), loadFromMysqlProjects(pool)])
+          .then((x) => loadFromMysqlTasks(pool))
+          .then((x) => completer.complete(this))
+          .catchError((e) => print('error in loading data from mysql db: ${e} '));
+    } catch(e) {
+      print('consult README: $e');
+    }
     return completer.future;
   }
 
@@ -255,6 +259,9 @@ class TasksModel extends ConceptModel {
     print('===========');
     print('Tasks Model');
     print('===========');
+    print('');
+    print('model persistence: $persistence');
+    print('');
     for (var project in projects) {
       print('  Project');
       print('  -------');

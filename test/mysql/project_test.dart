@@ -85,16 +85,20 @@ ConnectionPool getPool(OptionsFile options) {
 }
 
 main() {
-  var pool = getPool(new OptionsFile('connection.options'));
-  dropTables(pool).then((x) {
-    print("dropped tables");
-    createTable(pool).then((x) {
-      print("created employee table");
-      initData(pool).then((x) {
-        print("initialized employee data");
-        testProjects(pool);
+  try {
+    var pool = getPool(new OptionsFile('connection.options'));
+    dropTables(pool).then((x) {
+      print("dropped tables");
+      createTable(pool).then((x) {
+        print("created employee table");
+        initData(pool).then((x) {
+          print("initialized employee data");
+          testProjects(pool);
+        });
       });
     });
-  });
+  } catch(e) {
+    print('consult README: $e');
+  }
 }
 

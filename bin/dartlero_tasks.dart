@@ -7,7 +7,7 @@ void main() {
   List<String> args = options.arguments;
   try {
     if (args.length == 2 && (args[0] == '--dir')) {
-      // --dir C:/Users/ridjanod/git/db/dartlero_tasks/json_data
+      // --dir C:/Users/ridjanod/git/dart/db/dartlero_tasks/json_data
       // --dir /home/dr/git/db/dartlero_tasks/json_data
       model.persistence = 'json';
       model.jsonDirPath = args[1];
