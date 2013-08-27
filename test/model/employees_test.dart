@@ -11,7 +11,7 @@ testEmployees() {
   var robert = 'rwm@gmail.com';
   var ogden = 'ogdenr@gmail.com';
   var anne = 'anned@gmail.com';
-  group("Testing Employees", () {
+  group('Testing Employees', () {
     test('Add employee', () {
       var employee = new Employee();
       expect(employee, isNotNull);
@@ -65,7 +65,6 @@ testEmployees() {
         employees.display('Add employee, remove employee');
       });
     });
-
   });
 }
 

@@ -13,35 +13,25 @@ class Example {
   ConnectionPool pool;
 
   Example(this.pool);
-
+  
   Future run() {
     var completer = new Completer();
-    // drop the tables if they already exist
-    dropTables().then((_) {
-      print("dropped tables");
-      // then recreate the tables
-      return createTables();
-    }).then((_) {
-      print("created tables");
-      // add some data
-      return addData();
-    }).then((_) {
-      // and read it back out
-      return readData();
-    }).then((_) {
-      completer.complete();
-    });
+    dropTables()
+      .then((_) => createTables())
+      .then((_) => addData())
+      .then((_) => readData())
+      .then((_) => completer.complete());
     return completer.future;
   }
 
   Future dropTables() {
-    print("dropping tables");
+    print('dropping tables');
     var dropper = new TableDropper(pool, ['task']);
     return dropper.dropTables();
   }
 
   Future createTables() {
-    print("creating tables");
+    print('creating tables');
     var querier = new QueryRunner(pool,
         [
          'create table task '
@@ -55,24 +45,24 @@ class Example {
            'foreign key (employeeCode) references employee (code) '
          ')'
         ]);
-    print("executing queries");
+    print('executing queries');
     return querier.executeQueries();
   }
 
   Future addData() {
     var completer = new Completer();
     pool.prepare(
-        "insert into task (code, projectCode, employeeCode, description) values (?, ?, ?, ?)"
+        'insert into task (code, projectCode, employeeCode, description) values (?, ?, ?, ?)'
         ).then((query) {
-      print("prepared query insert into task");
+      print('prepared query insert into task');
       var parameters = [
-          ["Dart-timur.ridjanovic@gmail.com", "Dart", "timur.ridjanovic@gmail.com", "Timur is learning Dart."],
-          ["Dart-ma.seyer@gmail.com", "Dart", "ma.seyer@gmail.com", "Marc-Antoine is learning Dart."],
-          ["Web Components-dzenanr@gmail.com", "Web Components", "dzenanr@gmail.com", "Dzenan is learning Web Components."]
+          ['Dart-timur.ridjanovic@gmail.com', 'Dart', 'timur.ridjanovic@gmail.com', 'Timur is learning Dart.'],
+          ['Dart-ma.seyer@gmail.com', 'Dart', 'ma.seyer@gmail.com', 'Marc-Antoine is learning Dart.'],
+          ['Web Components-dzenanr@gmail.com', 'Web Components', 'dzenanr@gmail.com', 'Dzenan is learning Web Components.']
         ];
       return query.executeMulti(parameters);
     }).then((results) {
-      print("executed query insert into project");
+      print('executed query insert into project');
       completer.complete();
     });
     return completer.future;
@@ -80,14 +70,14 @@ class Example {
 
   Future readData() {
     var completer = new Completer();
-    print("querying tasks");
+    print('querying tasks');
     pool.query(
         'select t.projectCode, t.employeeCode, t.description '
         'from task t '
         ).then((rows) {
-      print("got results");
+      print('got results');
       rows.stream.listen((row) {
-        print("Project Code: ${row[0]}, Employee Code: ${row[1]}, Description: ${row[2]}");
+        print('Project Code: ${row[0]}, Employee Code: ${row[1]}, Description: ${row[2]}');
       });
       completer.complete();
     });
@@ -106,16 +96,16 @@ void main() {
     String host = options.getString('host', 'localhost');
 
     // create a connection
-    print("opening connection");
+    print('opening connection');
     var pool = new ConnectionPool(host: host, port: port, user: user, password: password, db: db);
-    print("connection open");
+    print('connection open');
     // create an example class
     var example = new Example(pool);
     // run the example
-    print("running example");
+    print('running example');
     example.run().then((_) {
       // finally, close the connection
-      print("bye");
+      print('bye');
       pool.close();
     });
   } catch(e) {

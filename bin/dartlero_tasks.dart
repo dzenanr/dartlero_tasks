@@ -36,7 +36,7 @@ void main() {
         Task task = new Task();
         task.employee = employee;
         task.project = project;
-        task.description = "Promouvoir la musique du Bas Canada";
+        task.description = 'Promouvoir la musique du Bas Canada';
         employee.tasks.add(task, insert:false);
         project.tasks.add(task);
       });

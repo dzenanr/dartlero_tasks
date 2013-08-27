@@ -6,12 +6,12 @@ import 'dart:async';
 
 testTasks(ConnectionPool pool) {
 
-  test("Select all tasks", () {
+  test('Select all tasks', () {
     pool.query(
         'select t.code, t.projectCode, t.employeeCode, t.description '
         'from task t '
     ).then((rows) {
-      print("printing all tasks");
+      print('printing all tasks');
       rows.stream.listen((row) {
         print(
             'code: ${row[0]}, '
@@ -23,7 +23,7 @@ testTasks(ConnectionPool pool) {
     });
   });
 
-  test("Insert task", () {
+  test('Insert task', () {
     pool.query(
         'insert into task '
         '(code, projectCode, employeeCode, description)'
@@ -34,7 +34,7 @@ testTasks(ConnectionPool pool) {
           'select * '
           'from task '
       ).then((rows) {
-        print("printing tasks after insert");
+        print('printing tasks after insert');
         rows.stream.listen((row) {
           print(
               'code: ${row[0]}, '
@@ -50,13 +50,13 @@ testTasks(ConnectionPool pool) {
 }
 
 Future dropTable(ConnectionPool pool) {
-  print("dropping task table");
+  print('dropping task table');
   var dropper = new TableDropper(pool, ['task']);
   return dropper.dropTables();
 }
 
 Future createTable(ConnectionPool pool) {
-  print("creating task table");
+  print('creating task table');
   var query = new QueryRunner(pool, [
     'create table task ('
       'code varchar(128) not null, '
@@ -72,15 +72,15 @@ Future createTable(ConnectionPool pool) {
 }
 
 Future initData(ConnectionPool pool) {
-  print("initializing task data");
+  print('initializing task data');
   var completer = new Completer();
   pool.prepare(
-      "insert into task (code, projectCode, employeeCode, description) values (?, ?, ?, ?)"
+      'insert into task (code, projectCode, employeeCode, description) values (?, ?, ?, ?)'
   ).then((query) {
     var data = [
-      ["Dart-timur.ridjanovic@gmail.com", "Dart", "timur.ridjanovic@gmail.com", "Timur is learning Dart."],
-      ["Dart-ma.seyer@gmail.com", "Dart", "ma.seyer@gmail.com", "Marc-Antoine is learning Dart."],
-      ["Web Components-dzenanr@gmail.com", "Web Components", "dzenanr@gmail.com", "Dzenan is learning Web Components."]
+      ['Dart-timur.ridjanovic@gmail.com', 'Dart', 'timur.ridjanovic@gmail.com', 'Timur is learning Dart.'],
+      ['Dart-ma.seyer@gmail.com', 'Dart', 'ma.seyer@gmail.com', 'Marc-Antoine is learning Dart.'],
+      ['Web Components-dzenanr@gmail.com', 'Web Components', 'dzenanr@gmail.com', 'Dzenan is learning Web Components.']
     ];
     return query.executeMulti(data);
   }).then((results) {
@@ -90,7 +90,7 @@ Future initData(ConnectionPool pool) {
 }
 
 Future clearTable(ConnectionPool pool) {
-  print("clearing task table");
+  print('clearing task table');
   var query = new QueryRunner(pool, [
     'truncate task'
   ]);
@@ -98,7 +98,7 @@ Future clearTable(ConnectionPool pool) {
 }
 
 ConnectionPool getPool(OptionsFile options) {
-  print("getting connection options");
+  print('getting connection options');
   String user = options.getString('user');
   String password = options.getString('password');
   int port = options.getInt('port', 3306);

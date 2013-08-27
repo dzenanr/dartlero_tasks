@@ -5,33 +5,33 @@ import 'package:sqljocky/utils.dart';
 import 'dart:async';
 
 testProjects(ConnectionPool pool) {
-  group("Testing projects", () {
-    test("Select all projects", () {
-      pool.query(
-        'select p.code, p.name, p.description '
-        'from project p '
-      ).then((rows) {
-        print("selected all projects");
-        rows.stream.listen((row) {
-          print(
-            'code: ${row[0]}, '
-            'name: ${row[1]}, '
-            'description: ${row[2]} '
-          );
-        });
+  
+  test('Select all projects', () {
+    pool.query(
+      'select p.code, p.name, p.description '
+      'from project p '
+    ).then((rows) {
+      print('selected all projects');
+      rows.stream.listen((row) {
+        print(
+          'code: ${row[0]}, '
+          'name: ${row[1]}, '
+          'description: ${row[2]} '
+        );
       });
     });
   });
+
 }
 
 Future dropTables(ConnectionPool pool) {
-  print("dropping tables");
+  print('dropping tables');
   var dropper = new TableDropper(pool, ['task', 'project']);
   return dropper.dropTables();
 }
 
 Future createTable(ConnectionPool pool) {
-  print("creating project table");
+  print('creating project table');
   var query = new QueryRunner(pool, [
     'create table project ('
       'code varchar(64) not null, '
@@ -44,20 +44,20 @@ Future createTable(ConnectionPool pool) {
 }
 
 Future initData(ConnectionPool pool) {
-  print("initializing project data");
+  print('initializing project data');
   var completer = new Completer();
   pool.prepare(
-    "insert into project (code, name, description) values (?, ?, ?)"
+    'insert into project (code, name, description) values (?, ?, ?)'
   ).then((query) {
-    print("prepared query insert into project");
+    print('prepared query insert into project');
     var data = [
-      ["Dart", "Dart", "Learning Dart."],
-      ["Web Components", "Web Components", "Learning web components."],
-      ["MySql", "MySql", "Figuring out MySql driver for Dart."]
+      ['Dart', 'Dart', 'Learning Dart.'],
+      ['Web Components', 'Web Components', 'Learning web components.'],
+      ['MySql', 'MySql', 'Figuring out MySql driver for Dart.']
     ];
     return query.executeMulti(data);
   }).then((results) {
-    print("executed query insert into project");
+    print('executed query insert into project');
     completer.complete(results);
   });
   return completer.future;
@@ -76,16 +76,10 @@ ConnectionPool getPool(OptionsFile options) {
 main() {
   try {
     var pool = getPool(new OptionsFile('connection.options'));
-    dropTables(pool).then((_) {
-      print("dropped tables");
-      createTable(pool).then((_) {
-        print("created project table");
-        initData(pool).then((_) {
-          print("initialized project data");
-          testProjects(pool);
-        });
-      });
-    });
+    dropTables(pool)
+      .then((_) => createTable(pool))
+      .then((_) => initData(pool))
+      .then((_) => testProjects(pool));
   } catch(e) {
     print('consult README: $e');
   }

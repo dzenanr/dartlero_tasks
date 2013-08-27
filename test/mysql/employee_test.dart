@@ -5,31 +5,70 @@ import 'package:sqljocky/utils.dart';
 import 'dart:async';
 
 testEmployees(ConnectionPool pool) {
-  group("Testing employees", () {
-    test("Select all employees", () {
-      pool.query(
-          'select e.code, e.lastName, e.firstName, e.email '
-          'from employee e '
-      ).then((rows) {
-        print("selected all employees");
-        rows.stream.listen((row) {
-          print(
-              'code: ${row[0]}, '
-              'last name: ${row[1]}, '
-              'first name: ${row[2]}, '
-              'email: ${row[3]}'
-          );
-        });
+  
+  test('Select all employees', () {
+    pool.query(
+        'select e.code, e.lastName, e.firstName, e.email '
+        'from employee e '
+    ).then((rows) {
+      print('selected all employees');
+      rows.stream.listen((row) {
+        print(
+            'code: ${row[0]}, '
+            'last name: ${row[1]}, '
+            'first name: ${row[2]}, '
+            'email: ${row[3]}'
+        );
       });
     });
+  });
 
-    test("Select Ridjanovic employees", () {
+  test('Select Ridjanovic employees', () {
+    pool.query(
+        'select e.code, e.lastName, e.firstName, e.email '
+        'from employee e '
+        'where e.lastName = "Ridjanovic" '
+    ).then((rows) {
+      print('selected Ridjanovic employees');
+      rows.stream.listen((row) {
+        print(
+            'code: ${row[0]}, '
+            'last name: ${row[1]}, '
+            'first name: ${row[2]}, '
+            'email: ${row[3]}'
+        );
+      });
+    });
+  });
+
+  test('Select all employees, then select Ridjanovic employees', () {
+    var futures = new List<Future>();
+    var completer = new Completer();
+    futures.add(completer.future);
+
+    pool.query(
+        'select e.code, e.lastName, e.firstName, e.email '
+        'from employee e '
+    ).then((rows) {
+      print('selected all employees');
+      rows.stream.listen((row) {
+        print(
+            'code: ${row[0]}, '
+            'last name: ${row[1]}, '
+            'first name: ${row[2]}, '
+            'email: ${row[3]}'
+        );
+      });
+      completer.complete();
+    }); 
+
+    Future.wait(futures).then((futures) {
       pool.query(
           'select e.code, e.lastName, e.firstName, e.email '
           'from employee e '
           'where e.lastName = "Ridjanovic" '
       ).then((rows) {
-        print("selected Ridjanovic employees");
+        print('selected Ridjanovic employees');
         rows.stream.listen((row) {
           print(
               'code: ${row[0]}, '
@@ -40,58 +79,19 @@ testEmployees(ConnectionPool pool) {
         });
       });
     });
+    
+  }); 
 
-    test("Select all employees, then select Ridjanovic employees", () {
-      var futures = new List<Future>();
-      var completer = new Completer();
-      futures.add(completer.future);
-
-      pool.query(
-          'select e.code, e.lastName, e.firstName, e.email '
-          'from employee e '
-      ).then((rows) {
-        print("selected all employees");
-        rows.stream.listen((row) {
-          print(
-              'code: ${row[0]}, '
-              'last name: ${row[1]}, '
-              'first name: ${row[2]}, '
-              'email: ${row[3]}'
-          );
-        });
-        completer.complete();
-      }); // pool.query(
-
-      Future.wait(futures).then((futures) {
-        pool.query(
-            'select e.code, e.lastName, e.firstName, e.email '
-            'from employee e '
-            'where e.lastName = "Ridjanovic" '
-        ).then((rows) {
-          print("selected Ridjanovic employees");
-          rows.stream.listen((row) {
-            print(
-                'code: ${row[0]}, '
-                'last name: ${row[1]}, '
-                'first name: ${row[2]}, '
-                'email: ${row[3]}'
-            );
-          });
-        });
-      }); // Future.wait(futures).then((futures) {
-    }); // test("Select all employees, then select Ridjanovic employees", () {
-
-  }); // group("Testing employees", () {
-} // testEmployees(ConnectionPool pool) {
+} 
 
 Future dropTables(ConnectionPool pool) {
-  print("dropping tables");
+  print('dropping tables');
   var dropper = new TableDropper(pool, ['task', 'employee']);
   return dropper.dropTables();
 }
 
 Future createTable(ConnectionPool pool) {
-  print("creating employee table");
+  print('creating employee table');
   var query = new QueryRunner(pool, [
     'create table employee ('
       'code varchar(64) not null, '
@@ -105,27 +105,27 @@ Future createTable(ConnectionPool pool) {
 }
 
 Future initData(ConnectionPool pool) {
-  print("initializing employee data");
+  print('initializing employee data');
   var completer = new Completer();
   pool.prepare(
-    "insert into employee (code, lastName, firstName, email) values (?, ?, ?, ?)"
+    'insert into employee (code, lastName, firstName, email) values (?, ?, ?, ?)'
   ).then((query) {
-    print("prepared query insert into employee");
+    print('prepared query insert into employee');
     var data = [
-      ["dzenanr@gmail.com", "Ridjanovic", "Dzenan", "dzenanr@gmail.com"],
-      ["timur.ridjanovic@gmail.com", "Ridjanovic", "Timur", "timur.ridjanovic@gmail.com"],
-      ["ma.seyer@gmail.com", "Seyer", "Marc-Antoine", "ma.seyer@gmail.com"]
+      ['dzenanr@gmail.com', 'Ridjanovic', 'Dzenan', 'dzenanr@gmail.com'],
+      ['timur.ridjanovic@gmail.com', 'Ridjanovic', 'Timur', 'timur.ridjanovic@gmail.com'],
+      ['ma.seyer@gmail.com', 'Seyer', 'Marc-Antoine', 'ma.seyer@gmail.com']
     ];
     return query.executeMulti(data);
   }).then((results) {
-    print("executed query insert into employee");
+    print('executed query insert into employee');
     completer.complete(results);
   });
   return completer.future;
 }
 
 Future emptyTable(ConnectionPool pool) {
-  print("empting employee table");
+  print('empting employee table');
   var query = new QueryRunner(pool, [
     'truncate employee'
   ]);
@@ -145,16 +145,10 @@ ConnectionPool getPool(OptionsFile options) {
 main() {
   try {
     var pool = getPool(new OptionsFile('connection.options'));
-    dropTables(pool).then((_) {
-      print("dropped tables");
-      createTable(pool).then((_) {
-        print("created employee table");
-        initData(pool).then((_) {
-          print("initialized employee data");
-          testEmployees(pool);
-        });
-      });
-    });
+    dropTables(pool)
+      .then((_) => createTable(pool))
+      .then((_) => initData(pool))
+      .then((_) => testEmployees(pool));
   } catch(e) {
     print('consult README: $e');
   }

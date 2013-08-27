@@ -9,7 +9,7 @@ testTasks() {
   Projects projects = model.projects;
   var dzenan = 'dzenanr@gmail.com';
   var modelibra = 'Modelibra';
-  group("Testing Tasks", () {
+  group('Testing Tasks', () {
     test('Add task', () {
       var employee = new Employee();
       expect(employee, isNotNull);

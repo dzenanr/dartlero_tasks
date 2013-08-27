@@ -7,7 +7,7 @@ testProjects() {
   model.persistence = 'mysql';
   Projects projects = model.projects;
   var modelibra = 'Modelibra';
-  group("Testing Projects", () {
+  group('Testing Projects', () {
     test('Add project', () {
       var project = new Project();
       expect(project, isNotNull);
@@ -22,8 +22,7 @@ testProjects() {
       expect(project, isNotNull);
       project.description = 'domain model framework in Java used in education';
       projects.display('Update project');
-    });
-    
+    });   
   });
 }
 
