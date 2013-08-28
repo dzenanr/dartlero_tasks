@@ -5,7 +5,7 @@ import 'package:sqljocky/utils.dart';
 import 'dart:async';
 
 testProjects(ConnectionPool pool) {
-  
+
   test('Select all projects', () {
     pool.query(
       'select p.code, p.name, p.description '
@@ -79,7 +79,8 @@ main() {
     dropTables(pool)
       .then((_) => createTable(pool))
       .then((_) => initData(pool))
-      .then((_) => testProjects(pool));
+      .then((_) => testProjects(pool))
+      .catchError((e) => print(e));
   } catch(e) {
     print('consult README: $e');
   }

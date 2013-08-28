@@ -20,7 +20,8 @@ class Example {
       .then((_) => createTables())
       .then((_) => addData())
       .then((_) => readData())
-      .then((_) => completer.complete());
+      .then((_) => completer.complete())
+      .catchError((e) => print(e));
     return completer.future;
   }
 
