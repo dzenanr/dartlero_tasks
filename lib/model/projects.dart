@@ -4,7 +4,7 @@ class Project extends ConceptEntity<Project> {
   String _name;
   String _description;
   Tasks tasks = new Tasks();
-  
+
   String get name => _name;
   set name(String name) {
     String oldName = _name;
@@ -105,7 +105,7 @@ class Projects extends ConceptEntities<Project> {
 
   bool add(Project project, {bool insert:true}) {
     if (super.add(project)) {
-      String utf8Description = codepointsToString(encodeUtf8(project.description));
+      var utf8Description = UTF8.encode(project.description);
       if (insert) {
         var model = TasksModel.one();
         if (model.persistence == 'mysql') {

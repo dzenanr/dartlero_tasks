@@ -105,8 +105,8 @@ class TasksModel extends ConceptModel {
     var projectsFilePath = '${jsonDirPath}/${PROJECT}.json';
     File employeesFile = getFile(employeesFilePath);
     File projectsFile = getFile(projectsFilePath);
-    addTextToFile(employeesFile, stringify(employees.toJson()));
-    addTextToFile(projectsFile, stringify(projects.toJson()));
+    addTextToFile(employeesFile, JSON.encode(employees.toJson()));
+    addTextToFile(projectsFile, JSON.encode(projects.toJson()));
   }
 
  bool loadFromJson() {
@@ -117,8 +117,8 @@ class TasksModel extends ConceptModel {
     String employeesFileText = readTextFromFile(employeesFile);
     String projectsFileText = readTextFromFile(projectsFile);
     if (employeesFileText.length > 0 && projectsFileText.length > 0) {
-      List<Map<String, Object>> employeesList = parse(employeesFileText);
-      List<Map<String, Object>> projectsList = parse(projectsFileText);
+      List<Map<String, Object>> employeesList = JSON.decode(employeesFileText);
+      List<Map<String, Object>> projectsList = JSON.decode(projectsFileText);
       employees.fromJson(employeesList);
       projects.fromJson(projectsList);
       for (var project in projects) {
@@ -155,7 +155,7 @@ class TasksModel extends ConceptModel {
     ).then((rows) {
       print("employees");
       rows.stream.listen((row) {
-        // String lastName = decodeUtf8(stringToCodepoints(row[0]));
+        // String lastName = UTF8.decode(row[0]);
         String lastName = row[0];
         String firstName = row[1];
         String email = row[2];
@@ -196,7 +196,7 @@ class TasksModel extends ConceptModel {
         );
         var project = new Project();
         project.name = name;
-        project.description = decodeUtf8(stringToCodepoints(description));
+        project.description = UTF8.decode(description);
         if (!projects.add(project, insert:false)) {
           print('problem in adding project from the mysql db to the projects entry');
           print('name: ${name}');
