@@ -114,7 +114,8 @@ main() {
     dropTable(pool)
       .then((_) => createTable(pool))
       .then((_) => initData(pool))
-      .then((_) => testTasks(pool));
+      .then((_) => testTasks(pool))
+      .catchError((e) => print(e));
   } catch(e) {
     print('consult README: $e');
   }

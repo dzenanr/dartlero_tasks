@@ -15,8 +15,7 @@ class Task extends ConceptEntity<Task> {
     if (oldProject != null) {
       var model = TasksModel.one();
       if (model.persistence == 'mysql') {
-        ConnectionPool pool =
-            getConnectionPool(new OptionsFile('connection.options'));
+        ConnectionPool pool = TasksModel.one().pool;
         pool.query(
             'update task '
             'set task.projectCode="${project.code}" '
@@ -52,8 +51,7 @@ class Task extends ConceptEntity<Task> {
     if (oldEmployee != null) {
       var model = TasksModel.one();
       if (model.persistence == 'mysql') {
-        ConnectionPool pool =
-            getConnectionPool(new OptionsFile('connection.options'));
+        ConnectionPool pool = TasksModel.one().pool;
         pool.query(
             'update task '
             'set task.employeeCode="${employee.code}" '
@@ -86,8 +84,7 @@ class Task extends ConceptEntity<Task> {
     if (oldDescription != null) {
       var model = TasksModel.one();
       if (model.persistence == 'mysql') {
-        ConnectionPool pool =
-            getConnectionPool(new OptionsFile('connection.options'));
+        ConnectionPool pool = TasksModel.one().pool;
         pool.query(
             'update task '
             'set task.description="${description}" '
@@ -151,8 +148,7 @@ class Tasks extends ConceptEntities<Task> {
       if (insert) {
         var model = TasksModel.one();
         if (model.persistence == 'mysql') {
-          ConnectionPool pool =
-              getConnectionPool(new OptionsFile('connection.options'));
+          ConnectionPool pool = TasksModel.one().pool;
           pool.query(
               'insert into task '
               '(code, projectCode, employeeCode, description)'
@@ -193,8 +189,7 @@ class Tasks extends ConceptEntities<Task> {
       if (delete) {
         var model = TasksModel.one();
         if (model.persistence == 'mysql') {
-          ConnectionPool pool =
-              getConnectionPool(new OptionsFile('connection.options'));
+          ConnectionPool pool = TasksModel.one().pool;
           pool.query(
               'delete from task '
               'where task.code="${task.code}" '

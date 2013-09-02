@@ -13,14 +13,15 @@ class Example {
   ConnectionPool pool;
 
   Example(this.pool);
-  
+
   Future run() {
     var completer = new Completer();
     dropTables()
       .then((_) => createTables())
       .then((_) => addData())
       .then((_) => readData())
-      .then((_) => completer.complete());
+      .then((_) => completer.complete())
+      .catchError((e) => print(e));
     return completer.future;
   }
 

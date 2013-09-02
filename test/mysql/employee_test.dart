@@ -5,7 +5,7 @@ import 'package:sqljocky/utils.dart';
 import 'dart:async';
 
 testEmployees(ConnectionPool pool) {
-  
+
   test('Select all employees', () {
     pool.query(
         'select e.code, e.lastName, e.firstName, e.email '
@@ -60,7 +60,7 @@ testEmployees(ConnectionPool pool) {
         );
       });
       completer.complete();
-    }); 
+    });
 
     Future.wait(futures).then((futures) {
       pool.query(
@@ -79,10 +79,10 @@ testEmployees(ConnectionPool pool) {
         });
       });
     });
-    
-  }); 
 
-} 
+  });
+
+}
 
 Future dropTables(ConnectionPool pool) {
   print('dropping tables');
@@ -148,7 +148,8 @@ main() {
     dropTables(pool)
       .then((_) => createTable(pool))
       .then((_) => initData(pool))
-      .then((_) => testEmployees(pool));
+      .then((_) => testEmployees(pool))
+      .catchError((e) => print(e));
   } catch(e) {
     print('consult README: $e');
   }

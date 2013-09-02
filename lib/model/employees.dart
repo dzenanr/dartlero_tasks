@@ -14,8 +14,7 @@ class Employee extends ConceptEntity<Employee> {
     if (oldLastName != null) {
       var model = TasksModel.one();
       if (model.persistence == 'mysql') {
-        ConnectionPool pool =
-            getConnectionPool(new OptionsFile('connection.options'));
+        ConnectionPool pool = TasksModel.one().pool;
         pool.query(
             'update employee '
             'set employee.lastName="${lastName}" '
@@ -48,8 +47,7 @@ class Employee extends ConceptEntity<Employee> {
     if (oldFirstName != null) {
       var model = TasksModel.one();
       if (model.persistence == 'mysql') {
-        ConnectionPool pool =
-            getConnectionPool(new OptionsFile('connection.options'));
+        ConnectionPool pool = TasksModel.one().pool;
         pool.query(
             'update employee '
             'set employee.firstName="${firstName}" '
@@ -85,8 +83,7 @@ class Employee extends ConceptEntity<Employee> {
     if (oldEmail != null) {
       var model = TasksModel.one();
       if (model.persistence == 'mysql') {
-        ConnectionPool pool =
-            getConnectionPool(new OptionsFile('connection.options'));
+        ConnectionPool pool = TasksModel.one().pool;
         pool.query(
             'update employee '
             'set employee.email="${email}" '
@@ -150,7 +147,7 @@ class Employees extends ConceptEntities<Employee> {
       if (insert) {
         var model = TasksModel.one();
         if (model.persistence == 'mysql') {
-          ConnectionPool pool = getConnectionPool(new OptionsFile('connection.options'));
+          ConnectionPool pool = TasksModel.one().pool;
           pool.query(
               'insert into employee '
               '(code, lastName, firstName, email)'
@@ -191,8 +188,7 @@ class Employees extends ConceptEntities<Employee> {
       if (delete) {
         var model = TasksModel.one();
         if (model.persistence == 'mysql') {
-          ConnectionPool pool =
-              getConnectionPool(new OptionsFile('connection.options'));
+          ConnectionPool pool = TasksModel.one().pool;
           pool.query(
               'delete from employee '
               'where employee.code="${employee.code}" '
