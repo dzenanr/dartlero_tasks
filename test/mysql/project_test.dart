@@ -7,18 +7,21 @@ import 'dart:async';
 testProjects(ConnectionPool pool) {
 
   test('Select all projects', () {
+    var count = 0;
     pool.query(
       'select p.code, p.name, p.description '
       'from project p '
     ).then((rows) {
       print('selected all projects');
       rows.stream.listen((row) {
+        count++;
         print(
+          'count: $count - '
           'code: ${row[0]}, '
           'name: ${row[1]}, '
           'description: ${row[2]} '
         );
-      });
+      }).onDone(() => expect(count, equals(3)));
     });
   });
 

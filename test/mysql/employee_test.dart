@@ -7,19 +7,22 @@ import 'dart:async';
 testEmployees(ConnectionPool pool) {
 
   test('Select all employees', () {
+    var count = 0;
     pool.query(
         'select e.code, e.lastName, e.firstName, e.email '
         'from employee e '
     ).then((rows) {
       print('selected all employees');
       rows.stream.listen((row) {
+        count++;
         print(
+            'count: $count - '
             'code: ${row[0]}, '
             'last name: ${row[1]}, '
             'first name: ${row[2]}, '
             'email: ${row[3]}'
         );
-      });
+      }).onDone(() => expect(count, equals(3)));
     });
   });
 
@@ -31,6 +34,7 @@ testEmployees(ConnectionPool pool) {
     ).then((rows) {
       print('selected Ridjanovic employees');
       rows.stream.listen((row) {
+        expect(row[1], equals('Ridjanovic'));
         print(
             'code: ${row[0]}, '
             'last name: ${row[1]}, '
@@ -45,6 +49,7 @@ testEmployees(ConnectionPool pool) {
     var futures = new List<Future>();
     var completer = new Completer();
     futures.add(completer.future);
+    var count = 0;
 
     pool.query(
         'select e.code, e.lastName, e.firstName, e.email '
@@ -52,14 +57,18 @@ testEmployees(ConnectionPool pool) {
     ).then((rows) {
       print('selected all employees');
       rows.stream.listen((row) {
+        count++;
         print(
+            'count: $count - '
             'code: ${row[0]}, '
             'last name: ${row[1]}, '
             'first name: ${row[2]}, '
             'email: ${row[3]}'
         );
+      }).onDone(() {
+        expect(count, equals(3));
+        completer.complete();
       });
-      completer.complete();
     });
 
     Future.wait(futures).then((futures) {
@@ -70,6 +79,7 @@ testEmployees(ConnectionPool pool) {
       ).then((rows) {
         print('selected Ridjanovic employees');
         rows.stream.listen((row) {
+          expect(row[1], equals('Ridjanovic'));
           print(
               'code: ${row[0]}, '
               'last name: ${row[1]}, '

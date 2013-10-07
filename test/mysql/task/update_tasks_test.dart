@@ -7,23 +7,27 @@ import 'dart:async';
 testTasks(ConnectionPool pool) {
 
   test('Select all tasks', () {
+    var count = 0;
     pool.query(
         'select t.code, t.projectCode, t.employeeCode, t.description '
         'from task t '
     ).then((rows) {
       print('printing all tasks');
       rows.stream.listen((row) {
+        count++;
         print(
+            'count: $count - '
             'code: ${row[0]}, '
             'project code: ${row[1]}, '
             'employee code: ${row[2]}, '
             'description: ${row[3]}'
         );
-      });
+      }).onDone(() => expect(count, equals(3)));
     });
   });
 
   test('Update some tasks', () {
+    var count = 0;
     pool.query(
         'update task '
         'set task.description="Learning Dart" '
@@ -35,13 +39,18 @@ testTasks(ConnectionPool pool) {
       ).then((rows) {
         print('printing tasks after update');
         rows.stream.listen((row) {
+          count++;
+          if (row[1] == 'Dart') {
+            expect(row[3], equals('Learning Dart'));
+          }
           print(
+              'count: $count - '
               'code: ${row[0]}, '
               'project code: ${row[1]}, '
               'employee code: ${row[2]}, '
               'description: ${row[3]}'
           );
-        });
+        }).onDone(() => expect(count, equals(3)));
       });
     });
   });

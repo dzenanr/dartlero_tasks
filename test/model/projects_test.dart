@@ -20,9 +20,11 @@ testProjects() {
     test('Update project', () {
       var project = projects.find(modelibra);
       expect(project, isNotNull);
-      project.description = 'domain model framework in Java used in education';
+      var description = 'domain model framework in Java used in education';
+      project.description = description;
+      expect(project.description, equals(description));
       projects.display('Update project');
-    });   
+    });
   });
 }
 

@@ -25,7 +25,9 @@ testEmployees() {
     test('Update employee', () {
       var employee = employees.find(robert);
       expect(employee, isNotNull);
-      employee.email = 'robert.mantha@gmail.com';
+      var email = 'robert.mantha@gmail.com';
+      employee.email = email;
+      expect(employee.email, equals(email));
       employees.display('Update employee');
     });
     test('Add employee, update employee, remove employee', () {
@@ -37,9 +39,14 @@ testEmployees() {
       var added = employees.add(employee);
       expect(added, isTrue);
 
+      var name = 'Anne Marie';
       employee.firstName = 'Anne Marie';
+      expect(employee.firstName, equals(name));
 
+      var length = employees.length;
       employees.remove(employee);
+      expect(employees.length, equals(--length));
+
       employees.display('Add employee, update employee, remove employee');
     });
     test('Add employee, remove employee with future', () {
@@ -61,7 +68,9 @@ testEmployees() {
       Future.wait(futures).then((futures) {
         employee = employees.find(ogden);
         expect(employee, isNotNull);
+        var length = employees.length;
         employees.remove(employee);
+        expect(employees.length, equals(--length));
         employees.display('Add employee, remove employee');
       });
     });

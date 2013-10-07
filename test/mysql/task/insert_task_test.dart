@@ -7,23 +7,27 @@ import 'dart:async';
 testTasks(ConnectionPool pool) {
 
   test('Select all tasks', () {
+    var count = 0;
     pool.query(
         'select t.code, t.projectCode, t.employeeCode, t.description '
         'from task t '
     ).then((rows) {
       print('printing all tasks');
       rows.stream.listen((row) {
+        count++;
         print(
+            'count: $count - '
             'code: ${row[0]}, '
             'project code: ${row[1]}, '
             'employee code: ${row[2]}, '
             'description: ${row[3]}'
         );
-      });
+      }).onDone(() => expect(count, equals(3)));
     });
   });
 
   test('Insert task', () {
+    var count = 0;
     pool.query(
         'insert into task '
         '(code, projectCode, employeeCode, description)'
@@ -36,13 +40,15 @@ testTasks(ConnectionPool pool) {
       ).then((rows) {
         print('printing tasks after insert');
         rows.stream.listen((row) {
+          count++;
           print(
+              'count: $count - '
               'code: ${row[0]}, '
               'project code: ${row[1]}, '
               'employee code: ${row[2]}, '
               'description: ${row[3]}'
           );
-        });
+        }).onDone(() => expect(count, equals(4)));
       });
     });
   });

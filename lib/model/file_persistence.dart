@@ -31,8 +31,7 @@ addTextToFile(File file, String text) {
 }
 
 String readTextFromFile(File file) {
-  String fileText = file.readAsStringSync();
-  return fileText;
+  return file.readAsStringSync();
 }
 
 
