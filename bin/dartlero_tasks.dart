@@ -1,22 +1,17 @@
-import 'dart:io';
 import 'package:dartlero_tasks/dartlero_tasks.dart';
 
-void main() {
+void main(List<String> arguments) {
   var model = TasksModel.one();
-  Options options = new Options();
-  List<String> args = options.arguments;
   try {
-    if (args.length == 2 && (args[0] == '--dir')) {
-      // --dir C:/Users/ridjanod/git/dart/db/dartlero_tasks/json_data
-      // --dir /home/dr/git/db/dartlero_tasks/json_data
+    if (arguments.length == 2 && (arguments[0] == '--dir')) {
       model.persistence = 'json';
-      model.jsonDirPath = args[1];
+      model.jsonDirPath = arguments[1];
       if (!model.loadFromJson()) {
         model.init();
         model.saveToJson();
       }
       model.display();
-    } else if (args.length == 1 && (args[0] == '--mysql')) {
+    } else if (arguments.length == 1 && (arguments[0] == '--mysql')) {
       // --mysql
       model.persistence = 'mysql';
       model.loadFromMysql().then((m) {
