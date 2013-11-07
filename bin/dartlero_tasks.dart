@@ -26,7 +26,7 @@ void main(List<String> arguments) {
         Project project = new Project();
         project.name = 'Bas Canada';
         project.description = "Le Bas-Canada était une province de l'Empire britannique, créée en 1791 par l'Acte constitutionnel.";
-        m.projects.add(project);
+        m.associations.add(project);
 
         Task task = new Task();
         task.employee = employee;

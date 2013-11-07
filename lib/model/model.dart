@@ -198,13 +198,14 @@ class TasksModel extends ConceptModel {
       print("projects");
       rows.stream.listen((row) {
         String name = row[0];
-        String description = row[1];
+        var description = row[1];
         print(
             'name: ${name}, '
             'description: ${description}'
         );
         var project = new Project();
         project.name = name;
+        // http://api.dartlang.org/docs/releases/latest/dart_convert.html
         project.description = UTF8.decode(description);
         if (!projects.add(project, insert:false)) {
           print('problem in adding project from the mysql db to the projects entry');
