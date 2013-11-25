@@ -44,7 +44,7 @@ class TasksModel extends ConceptModel {
 
   init() {
     var project1 = new Project();
-    project1.name = 'Learning Dart by Projects';
+    project1.name = 'Learning Dart';
     project1.description = 'A book about Dart by Dzenan and Ivo';
     projects.add(project1);
 
@@ -163,8 +163,7 @@ class TasksModel extends ConceptModel {
         'from employee e '
     ).then((rows) {
       print("employees");
-      rows.stream.listen((row) {
-        // String lastName = UTF8.decode(row[0]);
+      rows.listen((row) {
         String lastName = row[0];
         String firstName = row[1];
         String email = row[2];
@@ -196,7 +195,7 @@ class TasksModel extends ConceptModel {
         'from project p '
     ).then((rows) {
       print("projects");
-      rows.stream.listen((row) {
+      rows.listen((row) {
         String name = row[0];
         var description = row[1];
         print(
@@ -205,8 +204,7 @@ class TasksModel extends ConceptModel {
         );
         var project = new Project();
         project.name = name;
-        // http://api.dartlang.org/docs/releases/latest/dart_convert.html
-        project.description = UTF8.decode(description);
+        project.description = description;
         if (!projects.add(project, insert:false)) {
           print('problem in adding project from the mysql db to the projects entry');
           print('name: ${name}');
@@ -225,7 +223,7 @@ class TasksModel extends ConceptModel {
         'from task t '
     ).then((rows) {
       print("tasks");
-      rows.stream.listen((row) {
+      rows.listen((row) {
         String projectCode = row[0];
         String employeeCode = row[1];
         String description = row[2];

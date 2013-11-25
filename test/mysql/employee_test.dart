@@ -13,7 +13,7 @@ testEmployees(ConnectionPool pool) {
         'from employee e '
     ).then((rows) {
       print('selected all employees');
-      rows.stream.listen((row) {
+      rows.listen((row) {
         count++;
         print(
             'count: $count - '
@@ -33,7 +33,7 @@ testEmployees(ConnectionPool pool) {
         'where e.lastName = "Ridjanovic" '
     ).then((rows) {
       print('selected Ridjanovic employees');
-      rows.stream.listen((row) {
+      rows.listen((row) {
         expect(row[1], equals('Ridjanovic'));
         print(
             'code: ${row[0]}, '
@@ -56,7 +56,7 @@ testEmployees(ConnectionPool pool) {
         'from employee e '
     ).then((rows) {
       print('selected all employees');
-      rows.stream.listen((row) {
+      rows.listen((row) {
         count++;
         print(
             'count: $count - '
@@ -78,7 +78,7 @@ testEmployees(ConnectionPool pool) {
           'where e.lastName = "Ridjanovic" '
       ).then((rows) {
         print('selected Ridjanovic employees');
-        rows.stream.listen((row) {
+        rows.listen((row) {
           expect(row[1], equals('Ridjanovic'));
           print(
               'code: ${row[0]}, '

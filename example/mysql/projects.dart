@@ -74,7 +74,7 @@ class Example {
         'from project p '
         ).then((rows) {
       print('got results');
-      rows.stream.listen((row) {
+      rows.listen((row) {
         print('Name: ${row[0]}, Description: ${row[1]}');
       });
       completer.complete();

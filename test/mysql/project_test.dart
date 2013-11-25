@@ -13,7 +13,7 @@ testProjects(ConnectionPool pool) {
       'from project p '
     ).then((rows) {
       print('selected all projects');
-      rows.stream.listen((row) {
+      rows.listen((row) {
         count++;
         print(
           'count: $count - '

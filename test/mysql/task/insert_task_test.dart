@@ -13,7 +13,7 @@ testTasks(ConnectionPool pool) {
         'from task t '
     ).then((rows) {
       print('printing all tasks');
-      rows.stream.listen((row) {
+      rows.listen((row) {
         count++;
         print(
             'count: $count - '
@@ -39,7 +39,7 @@ testTasks(ConnectionPool pool) {
           'from task '
       ).then((rows) {
         print('printing tasks after insert');
-        rows.stream.listen((row) {
+        rows.listen((row) {
           count++;
           print(
               'count: $count - '

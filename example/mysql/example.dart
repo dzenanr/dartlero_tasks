@@ -110,7 +110,7 @@ class Example {
         'select e.lastName, e.firstName, e.email '
         'from employee e ').then((rows) {
       print('got results');
-      rows.stream.listen((row) {
+      rows.listen((row) {
         print('Last Name: ${row[0]}, First Name: ${row[1]}, Email: ${row[2]}');
       });
       completer.complete();

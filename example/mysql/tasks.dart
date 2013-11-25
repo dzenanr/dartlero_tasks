@@ -77,7 +77,7 @@ class Example {
         'from task t '
         ).then((rows) {
       print('got results');
-      rows.stream.listen((row) {
+      rows.listen((row) {
         print('Project Code: ${row[0]}, Employee Code: ${row[1]}, Description: ${row[2]}');
       });
       completer.complete();

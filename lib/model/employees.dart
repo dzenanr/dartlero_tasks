@@ -8,7 +8,6 @@ class Employee extends ConceptEntity<Employee> {
 
   String get lastName => _lastName;
   set lastName(String lastName) {
-    // String codedLastName = codepointsToString(encodeUtf8(lastName));
     String oldLastName = _lastName;
     _lastName = lastName;
     if (oldLastName != null) {
