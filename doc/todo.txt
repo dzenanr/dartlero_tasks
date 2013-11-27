@@ -15,3 +15,14 @@ MySql
 MongoDB
 
 - develop a version with MongoDB
+
+UTF8
+
+use UTF8.encode and UTF8.decode for text in French (with accents) 
+for example:
+in lib/model/projects.dart,
+use UTF8.encode description in 
+set description(String description) 
+in lib/model/model.dart,
+use UTF8.decode description in
+loadFromMysqlProjects
